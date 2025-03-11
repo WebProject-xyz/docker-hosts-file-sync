@@ -1,0 +1,120 @@
+<?php
+
+declare(strict_types=1);
+
+namespace WebProject\DockerApiClient\Service;
+
+use Exception;
+use RuntimeException;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use WebProject\DockerApiClient\Dto\DockerContainerDto;
+use WebProject\DockerApiClient\Event\ContainerEvent;
+use WebProject\DockerApiClient\Util\ContainerToHostsFileLinesUtil;
+use function count;
+use function sprintf;
+
+final class SynchronizeHostsFileService
+{
+    public const string START_TAG = '## docker-hostsfile-sync';
+    public const string END_TAG   = '## docker-hostsfile-sync-end';
+
+    public const array ENV_VARS_WITH_HOSTNAMES = ['DOMAIN_NAME'];
+
+    /** @var array<string, DockerContainerDto> */
+    private array $activeContainers = [];
+
+    public function __construct(
+        private readonly DockerService $dockerService,
+        private readonly string $hostsFile,
+        private readonly string $tld,
+        private readonly ?SymfonyStyle $consoleOutput = null,
+    ) {
+    }
+
+    public function run(): bool
+    {
+        if (!is_writable($this->hostsFile)) {
+            throw new RuntimeException(sprintf('File "%s" is not writable.', $this->hostsFile));
+        }
+
+        $this->init();
+
+        return true === $this->listen();
+    }
+
+    private function init(): void
+    {
+        foreach ($this->dockerService->findAllContainer() as $container) {
+            if (!$container->isExposed()) {
+                continue;
+            }
+
+            $this->activeContainers[$container->id] = $container;
+            if ($this->consoleOutput?->isVerbose()) {
+                $this->consoleOutput->writeln(sprintf('[+] Init: Running container "%s"', $container->getName()));
+            }
+        }
+
+        $this->regenerateHostsFile();
+    }
+
+    private function listen(): true
+    {
+        $this->dockerService->listenForEvents(function (ContainerEvent $event) {
+            if (!$event->id) {
+                return;
+            }
+
+            try {
+                $container = $this->dockerService->findContainer($event->id);
+            } catch (Exception $e) {
+                return;
+            }
+
+            if (null === $container) {
+                unset($this->activeContainers[$event->id]);
+
+                return;
+            }
+
+            if ($container->isExposed()) {
+                $this->activeContainers[$container->id] = $container;
+                if ($this->consoleOutput?->isVerbose()) {
+                    $this->consoleOutput->writeln('[+] "' . $event->Action . '" exposed container identified: ' . $container->getName());
+                }
+            } else {
+                unset($this->activeContainers[$container->id]);
+            }
+
+            $this->regenerateHostsFile();
+        });
+
+        return true;
+    }
+
+    private function regenerateHostsFile(): void
+    {
+        $containerToHostsFileLineUtil = new ContainerToHostsFileLinesUtil();
+
+        $content = array_map('trim', file($this->hostsFile));
+        $res     = preg_grep('/^' . self::START_TAG . '/', $content);
+        $start   = count($res) ? key($res) : count($content) + 1;
+        $res     = preg_grep('/^' . self::END_TAG . '/', $content);
+        $end     = count($res) ? key($res) : count($content) + 1;
+        $hosts   = array_merge(
+            [self::START_TAG],
+            array_map(
+                function (DockerContainerDto $container) use ($containerToHostsFileLineUtil): string {
+                    return implode("\n", $containerToHostsFileLineUtil(container: $container, tld: $this->tld, extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES));
+                },
+                $this->activeContainers
+            ),
+            [self::END_TAG]
+        );
+        array_splice($content, $start, $end - $start + 1, $hosts);
+        file_put_contents($this->hostsFile, implode("\n", $content));
+        if ($this->consoleOutput?->isVerbose()) {
+            $this->consoleOutput->writeln('[+] Updated hosts file');
+        }
+    }
+}
