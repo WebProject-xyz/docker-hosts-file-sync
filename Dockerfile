@@ -9,5 +9,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /app
 COPY --link . /app
-RUN composer install --no-progress --prefer-dist -o
-ENTRYPOINT ["/app/bin/docker-api", "synchronize-hosts", "-v"]
+RUN composer install --no-progress --prefer-dist -o \
+    && touch /app/hosts
+
+ENTRYPOINT ["/app/bin/docker-api", "synchronize-hosts", "--hosts_file=/app/hosts", "-v"]
