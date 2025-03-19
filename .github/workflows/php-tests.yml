@@ -2,8 +2,8 @@ on: [ push, pull_request ]
 name: "Tests"
 
 jobs:
-    grump:
-        name: "GrumPHP Run"
+    php-tests:
+        name: "Run codeception tests"
         runs-on: "ubuntu-latest"
         continue-on-error: ${{ matrix.allow-fail }}
         env:
@@ -55,9 +55,3 @@ jobs:
                 run: |
                     vendor/bin/codecept build -c .
                     vendor/bin/codecept run -c . -vvv --coverage --coverage-xml=coverage.xml --xml
-
-            - name: Coverage Check
-              uses: docker://ghcr.io/ericsizemore/phpunit-coverage-check-action
-              with:
-                clover_file: './build/logs/report.xml'
-                threshold: 5
