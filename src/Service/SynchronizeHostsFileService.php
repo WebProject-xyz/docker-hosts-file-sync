@@ -11,6 +11,7 @@ use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerApiClient\Event\ContainerEvent;
 use WebProject\DockerApiClient\Util\ContainerToHostsFileLinesUtil;
 use function count;
+use function in_array;
 use function sprintf;
 
 final class SynchronizeHostsFileService
@@ -19,6 +20,12 @@ final class SynchronizeHostsFileService
     public const string END_TAG   = '## docker-hostsfile-sync-end';
 
     public const array ENV_VARS_WITH_HOSTNAMES = ['DOMAIN_NAME'];
+    private const array LISTEN_TO_ACTION       = [
+        'start',
+        'restart',
+        'stop',
+        'die',
+    ];
 
     /** @var array<string, DockerContainerDto> */
     private array $activeContainers = [];
@@ -65,6 +72,10 @@ final class SynchronizeHostsFileService
                 return;
             }
 
+            if (!in_array($event->Action, self::LISTEN_TO_ACTION, true)) {
+                return;
+            }
+
             try {
                 $container = $this->dockerService->findContainer($event->id);
             } catch (Exception $e) {
@@ -80,7 +91,7 @@ final class SynchronizeHostsFileService
             if ($container->isExposed()) {
                 $this->activeContainers[$container->id] = $container;
                 if ($this->consoleOutput?->isVerbose()) {
-                    $this->consoleOutput->writeln('[+] "' . $event->Action . '" exposed container identified: ' . $container->getName());
+                    $this->consoleOutput->writeln('[+] Action "' . $event->Action . '" received for: ' . $container->getName());
                 }
             } else {
                 unset($this->activeContainers[$container->id]);
@@ -101,14 +112,21 @@ final class SynchronizeHostsFileService
         $start   = count($res) ? key($res) : count($content) + 1;
         $res     = preg_grep('/^' . self::END_TAG . '/', $content);
         $end     = count($res) ? key($res) : count($content) + 1;
-        $hosts   = array_merge(
+
+        $convertContainerToLine = function (DockerContainerDto $container) use ($containerToHostsFileLineUtil): string {
+            return implode(
+                "\n",
+                $containerToHostsFileLineUtil(
+                    container: $container,
+                    tld: $this->tld,
+                    extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES,
+                )
+            );
+        };
+
+        $hosts = array_merge(
             [self::START_TAG],
-            array_map(
-                function (DockerContainerDto $container) use ($containerToHostsFileLineUtil): string {
-                    return implode("\n", $containerToHostsFileLineUtil(container: $container, tld: $this->tld, extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES));
-                },
-                $this->activeContainers
-            ),
+            array_map($convertContainerToLine, $this->activeContainers),
             [self::END_TAG]
         );
         array_splice($content, $start, $end - $start + 1, $hosts);
