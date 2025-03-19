@@ -12,10 +12,10 @@ jobs:
             matrix:
                 include:
                     - { php-version: 8.3, dependencies: locked, coverage: pcov, with_coverage: true, allow-fail: false }
-                    - { php-version: 8.3, dependencies: highest, coverage: none, with_coverage: false, allow-fail: false }
+                    - { php-version: 8.3, dependencies: highest, coverage: pcov, with_coverage: false, allow-fail: false }
 
-                    - { php-version: 8.4, dependencies: locked, coverage: none, with_coverage: false, allow-fail: true }
-                    - { php-version: 8.4, dependencies: highest, coverage: none, with_coverage: false, allow-fail: true }
+                    - { php-version: 8.4, dependencies: locked, coverage: pcov, with_coverage: false, allow-fail: true }
+                    - { php-version: 8.4, dependencies: highest, coverage: pcov, with_coverage: false, allow-fail: true }
         steps:
             -   name: "Checkout"
                 uses: "actions/checkout@v4.2.2"
@@ -51,7 +51,7 @@ jobs:
                 with:
                     dependencies: "${{ matrix.dependencies }}"
 
-            -   name: "Run GrumPHP"
+            -   name: "Run Tests"
                 run: |
                     vendor/bin/codecept build -c .
                     vendor/bin/codecept run -c . -vvv --coverage --coverage-xml=coverage.xml --xml
