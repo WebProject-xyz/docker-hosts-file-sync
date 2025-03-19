@@ -27,12 +27,16 @@ jobs:
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
+      - name: Convert repository name to lowercase
+        id: repo
+        run: echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:${{ env.VERSION }} .
-          docker tag ghcr.io/${{ github.repository }}:${{ env.VERSION }} ghcr.io/${{ github.repository }}:latest
+          docker build -t ghcr.io/${{ env.REPO_NAME }}:${{ env.VERSION }} .
+          docker tag ghcr.io/${{ env.REPO_NAME }}:${{ env.VERSION }} ghcr.io/${{ env.REPO_NAME }}:latest
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository }}:${{ env.VERSION }}
-          docker push ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ env.REPO_NAME }}:${{ env.VERSION }}
+          docker push ghcr.io/${{ env.REPO_NAME }}:latest
