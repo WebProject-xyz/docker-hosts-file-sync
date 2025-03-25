@@ -21,7 +21,7 @@ final class SynchronizeHostsFileService
     public const string START_TAG = '## docker-hostsfile-sync';
     public const string END_TAG   = '## docker-hostsfile-sync-end';
 
-    public const array ENV_VARS_WITH_HOSTNAMES = ['DOMAIN_NAME'];
+    public const array ENV_VARS_WITH_HOSTNAMES = ['DOMAIN_NAME', 'VIRTUAL_HOST'];
     private const array LISTEN_TO_ACTION       = [
         'start',
         'restart',
