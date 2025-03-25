@@ -136,15 +136,23 @@ final class SynchronizeHostsFileService
             );
         };
 
+        $hostsFileLines = array_map($convertContainerToLine, $this->activeContainers);
+
         $hosts = array_merge(
             [self::START_TAG],
-            array_map($convertContainerToLine, $this->activeContainers),
+            $hostsFileLines,
             [self::END_TAG]
         );
         array_splice($content, $start, $end - $start + 1, $hosts);
         file_put_contents($this->hostsFile, implode("\n", $content));
         if ($this->consoleOutput?->isVerbose()) {
             $this->consoleOutput->writeln('[+] Updated hosts file');
+
+            $table = $this->consoleOutput->createTable();
+            foreach ($hostsFileLines as $hostsFileLine) {
+                $table->addRow([$hostsFileLine]);
+            }
+            $table->render();
         }
     }
 }
