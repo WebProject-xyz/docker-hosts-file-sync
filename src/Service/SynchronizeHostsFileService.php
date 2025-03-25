@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WebProject\DockerApiClient\Service;
 
+use const FILTER_VALIDATE_IP;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -11,6 +12,7 @@ use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerApiClient\Event\ContainerEvent;
 use WebProject\DockerApiClient\Util\ContainerToHostsFileLinesUtil;
 use function count;
+use function filter_var;
 use function in_array;
 use function sprintf;
 
@@ -34,6 +36,7 @@ final class SynchronizeHostsFileService
         private readonly DockerService $dockerService,
         private readonly string $hostsFile,
         private readonly string $tld,
+        private readonly ?string $reverseProxyIp = null,
         private readonly ?SymfonyStyle $consoleOutput = null,
     ) {
     }
@@ -42,6 +45,10 @@ final class SynchronizeHostsFileService
     {
         if (!is_writable($this->hostsFile)) {
             throw new RuntimeException(sprintf('File "%s" is not writable.', $this->hostsFile));
+        }
+
+        if ($this->reverseProxyIp && !filter_var($this->reverseProxyIp, FILTER_VALIDATE_IP)) {
+            throw new RuntimeException(sprintf('ReverseProxyIp "%s" is not a valid ip.', $this->reverseProxyIp));
         }
 
         $this->init();
@@ -73,6 +80,10 @@ final class SynchronizeHostsFileService
             }
 
             if (!in_array($event->Action, self::LISTEN_TO_ACTION, true)) {
+                if ($this->consoleOutput?->isVeryVerbose()) {
+                    $this->consoleOutput->writeln('[+] Action "' . $event->Action . '" from "' . $event->from . '" - skipped.');
+                }
+
                 return;
             }
 
@@ -120,6 +131,7 @@ final class SynchronizeHostsFileService
                     container: $container,
                     tld: $this->tld,
                     extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES,
+                    reverseProxyIp: $this->reverseProxyIp,
                 )
             );
         };

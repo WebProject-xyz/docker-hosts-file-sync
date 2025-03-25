@@ -61,7 +61,7 @@ class NetworkSettings extends ArrayObject
      * If a container's port is mapped for multiple protocols, separate entries
      * are added to the mapping table.
      *
-     * @var array<string, list<PortBinding>>|null
+     * @var array<string, mixed>|null
      */
     protected $ports;
     /**
@@ -346,7 +346,7 @@ class NetworkSettings extends ArrayObject
      * If a container's port is mapped for multiple protocols, separate entries
      * are added to the mapping table.
      *
-     * @return array<string, list<PortBinding>>|null
+     * @return array<string, mixed>|null
      */
     public function getPorts(): ?iterable
     {
@@ -361,7 +361,7 @@ class NetworkSettings extends ArrayObject
      * If a container's port is mapped for multiple protocols, separate entries
      * are added to the mapping table.
      *
-     * @param array<string, list<PortBinding>>|null $ports
+     * @param array<string, mixed>|null $ports
      *
      * @return self
      */

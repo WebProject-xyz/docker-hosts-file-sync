@@ -146,7 +146,7 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
             }
             if (array_key_exists('Entrypoint', $data)) {
                 $values_4 = [];
-                foreach ($data['Entrypoint'] as $value_4) {
+                foreach ($data['Entrypoint'] ?? [] as $value_4) {
                     $values_4[] = $value_4;
                 }
                 $object->setEntrypoint($values_4);

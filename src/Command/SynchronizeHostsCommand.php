@@ -34,6 +34,12 @@ final class SynchronizeHostsCommand extends Command
                 description: 'The TLD to use',
                 default: getenv('TLD') ?: '.docker'
             )
+            ->addOption(
+                name: 'reverse-proxy-host-ip',
+                shortcut: 'r',
+                mode: InputOption::VALUE_OPTIONAL,
+                description: 'IP address of your reverse proxy will be used to generate hosts file lines by docker container env DOMAIN_NAME or network alias (with dot like dev.myapp)',
+            )
         ;
     }
 
@@ -47,6 +53,7 @@ final class SynchronizeHostsCommand extends Command
         $success = true === SynchronizeHostsFileServiceFactory::create(
             hostsFile: $input->getOption('hosts_file'),
             tld: $input->getOption('tld'),
+            reverseProxyIp: $input->getOption('reverse-proxy-host-ip'),
             io: $io,
         )->run();
 

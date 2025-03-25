@@ -8102,6 +8102,7 @@ components:
       properties:
         Start:
           type: string
+          nullable: true
           description: |
             Date and time at which this check started in
             [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
@@ -8109,6 +8110,7 @@ components:
           example: 2020-01-04T10:44:24.496525531Z
         End:
           type: string
+          nullable: true
           description: |
             Date and time at which this check ended in
             [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
@@ -8116,6 +8118,7 @@ components:
           example: 2020-01-04T10:45:21.364524523Z
         ExitCode:
           type: integer
+          nullable: true
           description: |
             ExitCode meanings:
 
@@ -8313,6 +8316,7 @@ components:
               type: string
           DnsSearch:
             type: array
+            nullable: true
             description: A list of DNS search domains.
             items:
               type: string
@@ -8453,6 +8457,7 @@ components:
             - ""
           MaskedPaths:
             type: array
+            nullable: true
             description: |
               The list of paths to be masked inside the container (this overrides
               the default set of paths).
@@ -8472,6 +8477,7 @@ components:
               type: string
           ReadonlyPaths:
             type: array
+            nullable: true
             description: |
               The list of paths to be set as read-only inside the container
               (this overrides the default set of paths).
@@ -8591,6 +8597,7 @@ components:
           example: /public/
         Entrypoint:
           type: array
+          nullable: true
           description: |
             The entry point for the container as a string or an array of strings.
 
@@ -8810,6 +8817,7 @@ components:
           example: /public/
         Entrypoint:
           type: array
+          nullable: true
           description: |
             The entry point for the container as a string or an array of strings.
 
@@ -9141,7 +9149,9 @@ components:
       type: object
       nullable: true
       additionalProperties:
-        type: array
+        types:
+        - array
+        - string
         nullable: true
         items:
           $ref: '#/components/schemas/PortBinding'
@@ -9172,6 +9182,7 @@ components:
       types:
       - object
       - null
+      - string
       properties:
         HostIp:
           nullable: true
@@ -10551,6 +10562,7 @@ components:
               nullable: false
             Entrypoint:
               type: array
+              nullable: true
               example:
               - /usr/bin/sample-volume-plugin
               - /data

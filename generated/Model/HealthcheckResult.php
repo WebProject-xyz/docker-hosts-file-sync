@@ -22,14 +22,14 @@ class HealthcheckResult extends ArrayObject
      * Date and time at which this check started in
      * [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
      *
-     * @var DateTime
+     * @var DateTime|null
      */
     protected $start;
     /**
      * Date and time at which this check ended in
      * [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
      *
-     * @var string
+     * @var string|null
      */
     protected $end;
     /**
@@ -40,7 +40,7 @@ class HealthcheckResult extends ArrayObject
      * - `2` reserved (considered unhealthy)
      * - other values: error running probe
      *
-     * @var int
+     * @var int|null
      */
     protected $exitCode;
     /**
@@ -54,9 +54,9 @@ class HealthcheckResult extends ArrayObject
      * Date and time at which this check started in
      * [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
      *
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getStart(): DateTime
+    public function getStart(): ?DateTime
     {
         return $this->start;
     }
@@ -65,11 +65,11 @@ class HealthcheckResult extends ArrayObject
      * Date and time at which this check started in
      * [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
      *
-     * @param DateTime $start
+     * @param DateTime|null $start
      *
      * @return self
      */
-    public function setStart(DateTime $start): self
+    public function setStart(?DateTime $start): self
     {
         $this->initialized['start'] = true;
         $this->start                = $start;
@@ -81,9 +81,9 @@ class HealthcheckResult extends ArrayObject
      * Date and time at which this check ended in
      * [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
      *
-     * @return string
+     * @return string|null
      */
-    public function getEnd(): string
+    public function getEnd(): ?string
     {
         return $this->end;
     }
@@ -92,11 +92,11 @@ class HealthcheckResult extends ArrayObject
      * Date and time at which this check ended in
      * [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds.
      *
-     * @param string $end
+     * @param string|null $end
      *
      * @return self
      */
-    public function setEnd(string $end): self
+    public function setEnd(?string $end): self
     {
         $this->initialized['end'] = true;
         $this->end                = $end;
@@ -112,9 +112,9 @@ class HealthcheckResult extends ArrayObject
      * - `2` reserved (considered unhealthy)
      * - other values: error running probe
      *
-     * @return int
+     * @return int|null
      */
-    public function getExitCode(): int
+    public function getExitCode(): ?int
     {
         return $this->exitCode;
     }
@@ -127,11 +127,11 @@ class HealthcheckResult extends ArrayObject
      * - `2` reserved (considered unhealthy)
      * - other values: error running probe
      *
-     * @param int $exitCode
+     * @param int|null $exitCode
      *
      * @return self
      */
-    public function setExitCode(int $exitCode): self
+    public function setExitCode(?int $exitCode): self
     {
         $this->initialized['exitCode'] = true;
         $this->exitCode                = $exitCode;

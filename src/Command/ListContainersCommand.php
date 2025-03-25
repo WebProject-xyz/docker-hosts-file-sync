@@ -18,7 +18,7 @@ use function substr;
     description: 'List docker containers.'
 ),
 ]
-class ListContainersCommand extends Command
+final class ListContainersCommand extends Command
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

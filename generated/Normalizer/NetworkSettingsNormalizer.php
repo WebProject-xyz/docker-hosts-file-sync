@@ -77,17 +77,7 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
             if (array_key_exists('Ports', $data) && null !== $data['Ports']) {
                 $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
                 foreach ($data['Ports'] as $key => $value) {
-                    // start fix for crappy schema
-                    if (null === $value) {
-                        $values[$key] = null;
-                        continue;
-                    }
-                    // end fix
-                    $values_1 = [];
-                    foreach ($value as $value_1) {
-                        $values_1[] = $this->denormalizer->denormalize($value_1, \WebProject\DockerApi\Library\Generated\Model\PortBinding::class, 'json', $context);
-                    }
-                    $values[$key] = $values_1;
+                    $values[$key] = $value;
                 }
                 $object->setPorts($values);
                 unset($data['Ports']);
@@ -99,21 +89,21 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 unset($data['SandboxKey']);
             }
             if (array_key_exists('SecondaryIPAddresses', $data) && null !== $data['SecondaryIPAddresses']) {
-                $values_2 = [];
-                foreach ($data['SecondaryIPAddresses'] as $value_2) {
-                    $values_2[] = $this->denormalizer->denormalize($value_2, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
+                $values_1 = [];
+                foreach ($data['SecondaryIPAddresses'] as $value_1) {
+                    $values_1[] = $this->denormalizer->denormalize($value_1, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
                 }
-                $object->setSecondaryIPAddresses($values_2);
+                $object->setSecondaryIPAddresses($values_1);
                 unset($data['SecondaryIPAddresses']);
             } elseif (array_key_exists('SecondaryIPAddresses', $data) && null === $data['SecondaryIPAddresses']) {
                 $object->setSecondaryIPAddresses(null);
             }
             if (array_key_exists('SecondaryIPv6Addresses', $data) && null !== $data['SecondaryIPv6Addresses']) {
-                $values_3 = [];
-                foreach ($data['SecondaryIPv6Addresses'] as $value_3) {
-                    $values_3[] = $this->denormalizer->denormalize($value_3, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
+                $values_2 = [];
+                foreach ($data['SecondaryIPv6Addresses'] as $value_2) {
+                    $values_2[] = $this->denormalizer->denormalize($value_2, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
                 }
-                $object->setSecondaryIPv6Addresses($values_3);
+                $object->setSecondaryIPv6Addresses($values_2);
                 unset($data['SecondaryIPv6Addresses']);
             } elseif (array_key_exists('SecondaryIPv6Addresses', $data) && null === $data['SecondaryIPv6Addresses']) {
                 $object->setSecondaryIPv6Addresses(null);
@@ -151,16 +141,16 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 unset($data['MacAddress']);
             }
             if (array_key_exists('Networks', $data)) {
-                $values_4 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-                foreach ($data['Networks'] as $key_1 => $value_4) {
-                    $values_4[$key_1] = $this->denormalizer->denormalize($value_4, \WebProject\DockerApi\Library\Generated\Model\EndpointSettings::class, 'json', $context);
+                $values_3 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+                foreach ($data['Networks'] as $key_1 => $value_3) {
+                    $values_3[$key_1] = $this->denormalizer->denormalize($value_3, \WebProject\DockerApi\Library\Generated\Model\EndpointSettings::class, 'json', $context);
                 }
-                $object->setNetworks($values_4);
+                $object->setNetworks($values_3);
                 unset($data['Networks']);
             }
-            foreach ($data as $key_2 => $value_5) {
+            foreach ($data as $key_2 => $value_4) {
                 if (preg_match('/.*/', (string) $key_2)) {
-                    $object[$key_2] = $value_5;
+                    $object[$key_2] = $value_4;
                 }
             }
 
@@ -188,11 +178,7 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
             if ($object->isInitialized('ports') && null !== $object->getPorts()) {
                 $values = [];
                 foreach ($object->getPorts() as $key => $value) {
-                    $values_1 = [];
-                    foreach ($value as $value_1) {
-                        $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
-                    }
-                    $values[$key] = $values_1;
+                    $values[$key] = $value;
                 }
                 $data['Ports'] = $values;
             }
@@ -200,18 +186,18 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 $data['SandboxKey'] = $object->getSandboxKey();
             }
             if ($object->isInitialized('secondaryIPAddresses') && null !== $object->getSecondaryIPAddresses()) {
-                $values_2 = [];
-                foreach ($object->getSecondaryIPAddresses() as $value_2) {
-                    $values_2[] = $this->normalizer->normalize($value_2, 'json', $context);
+                $values_1 = [];
+                foreach ($object->getSecondaryIPAddresses() as $value_1) {
+                    $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
                 }
-                $data['SecondaryIPAddresses'] = $values_2;
+                $data['SecondaryIPAddresses'] = $values_1;
             }
             if ($object->isInitialized('secondaryIPv6Addresses') && null !== $object->getSecondaryIPv6Addresses()) {
-                $values_3 = [];
-                foreach ($object->getSecondaryIPv6Addresses() as $value_3) {
-                    $values_3[] = $this->normalizer->normalize($value_3, 'json', $context);
+                $values_2 = [];
+                foreach ($object->getSecondaryIPv6Addresses() as $value_2) {
+                    $values_2[] = $this->normalizer->normalize($value_2, 'json', $context);
                 }
-                $data['SecondaryIPv6Addresses'] = $values_3;
+                $data['SecondaryIPv6Addresses'] = $values_2;
             }
             if ($object->isInitialized('endpointID') && null !== $object->getEndpointID()) {
                 $data['EndpointID'] = $object->getEndpointID();
@@ -238,15 +224,15 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 $data['MacAddress'] = $object->getMacAddress();
             }
             if ($object->isInitialized('networks') && null !== $object->getNetworks()) {
-                $values_4 = [];
-                foreach ($object->getNetworks() as $key_1 => $value_4) {
-                    $values_4[$key_1] = $this->normalizer->normalize($value_4, 'json', $context);
+                $values_3 = [];
+                foreach ($object->getNetworks() as $key_1 => $value_3) {
+                    $values_3[$key_1] = $this->normalizer->normalize($value_3, 'json', $context);
                 }
-                $data['Networks'] = $values_4;
+                $data['Networks'] = $values_3;
             }
-            foreach ($object as $key_2 => $value_5) {
+            foreach ($object as $key_2 => $value_4) {
                 if (preg_match('/.*/', (string) $key_2)) {
-                    $data[$key_2] = $value_5;
+                    $data[$key_2] = $value_4;
                 }
             }
 
@@ -318,11 +304,7 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
             if (array_key_exists('Ports', $data) && null !== $data['Ports']) {
                 $values = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
                 foreach ($data['Ports'] as $key => $value) {
-                    $values_1 = [];
-                    foreach ($value as $value_1) {
-                        $values_1[] = $this->denormalizer->denormalize($value_1, \WebProject\DockerApi\Library\Generated\Model\PortBinding::class, 'json', $context);
-                    }
-                    $values[$key] = $values_1;
+                    $values[$key] = $value;
                 }
                 $object->setPorts($values);
                 unset($data['Ports']);
@@ -334,21 +316,21 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 unset($data['SandboxKey']);
             }
             if (array_key_exists('SecondaryIPAddresses', $data) && null !== $data['SecondaryIPAddresses']) {
-                $values_2 = [];
-                foreach ($data['SecondaryIPAddresses'] as $value_2) {
-                    $values_2[] = $this->denormalizer->denormalize($value_2, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
+                $values_1 = [];
+                foreach ($data['SecondaryIPAddresses'] as $value_1) {
+                    $values_1[] = $this->denormalizer->denormalize($value_1, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
                 }
-                $object->setSecondaryIPAddresses($values_2);
+                $object->setSecondaryIPAddresses($values_1);
                 unset($data['SecondaryIPAddresses']);
             } elseif (array_key_exists('SecondaryIPAddresses', $data) && null === $data['SecondaryIPAddresses']) {
                 $object->setSecondaryIPAddresses(null);
             }
             if (array_key_exists('SecondaryIPv6Addresses', $data) && null !== $data['SecondaryIPv6Addresses']) {
-                $values_3 = [];
-                foreach ($data['SecondaryIPv6Addresses'] as $value_3) {
-                    $values_3[] = $this->denormalizer->denormalize($value_3, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
+                $values_2 = [];
+                foreach ($data['SecondaryIPv6Addresses'] as $value_2) {
+                    $values_2[] = $this->denormalizer->denormalize($value_2, \WebProject\DockerApi\Library\Generated\Model\Address::class, 'json', $context);
                 }
-                $object->setSecondaryIPv6Addresses($values_3);
+                $object->setSecondaryIPv6Addresses($values_2);
                 unset($data['SecondaryIPv6Addresses']);
             } elseif (array_key_exists('SecondaryIPv6Addresses', $data) && null === $data['SecondaryIPv6Addresses']) {
                 $object->setSecondaryIPv6Addresses(null);
@@ -386,16 +368,16 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 unset($data['MacAddress']);
             }
             if (array_key_exists('Networks', $data)) {
-                $values_4 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-                foreach ($data['Networks'] as $key_1 => $value_4) {
-                    $values_4[$key_1] = $this->denormalizer->denormalize($value_4, \WebProject\DockerApi\Library\Generated\Model\EndpointSettings::class, 'json', $context);
+                $values_3 = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+                foreach ($data['Networks'] as $key_1 => $value_3) {
+                    $values_3[$key_1] = $this->denormalizer->denormalize($value_3, \WebProject\DockerApi\Library\Generated\Model\EndpointSettings::class, 'json', $context);
                 }
-                $object->setNetworks($values_4);
+                $object->setNetworks($values_3);
                 unset($data['Networks']);
             }
-            foreach ($data as $key_2 => $value_5) {
+            foreach ($data as $key_2 => $value_4) {
                 if (preg_match('/.*/', (string) $key_2)) {
-                    $object[$key_2] = $value_5;
+                    $object[$key_2] = $value_4;
                 }
             }
 
@@ -426,11 +408,7 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
             if ($object->isInitialized('ports') && null !== $object->getPorts()) {
                 $values = [];
                 foreach ($object->getPorts() as $key => $value) {
-                    $values_1 = [];
-                    foreach ($value as $value_1) {
-                        $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
-                    }
-                    $values[$key] = $values_1;
+                    $values[$key] = $value;
                 }
                 $data['Ports'] = $values;
             }
@@ -438,18 +416,18 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 $data['SandboxKey'] = $object->getSandboxKey();
             }
             if ($object->isInitialized('secondaryIPAddresses') && null !== $object->getSecondaryIPAddresses()) {
-                $values_2 = [];
-                foreach ($object->getSecondaryIPAddresses() as $value_2) {
-                    $values_2[] = $this->normalizer->normalize($value_2, 'json', $context);
+                $values_1 = [];
+                foreach ($object->getSecondaryIPAddresses() as $value_1) {
+                    $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
                 }
-                $data['SecondaryIPAddresses'] = $values_2;
+                $data['SecondaryIPAddresses'] = $values_1;
             }
             if ($object->isInitialized('secondaryIPv6Addresses') && null !== $object->getSecondaryIPv6Addresses()) {
-                $values_3 = [];
-                foreach ($object->getSecondaryIPv6Addresses() as $value_3) {
-                    $values_3[] = $this->normalizer->normalize($value_3, 'json', $context);
+                $values_2 = [];
+                foreach ($object->getSecondaryIPv6Addresses() as $value_2) {
+                    $values_2[] = $this->normalizer->normalize($value_2, 'json', $context);
                 }
-                $data['SecondaryIPv6Addresses'] = $values_3;
+                $data['SecondaryIPv6Addresses'] = $values_2;
             }
             if ($object->isInitialized('endpointID') && null !== $object->getEndpointID()) {
                 $data['EndpointID'] = $object->getEndpointID();
@@ -476,15 +454,15 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
                 $data['MacAddress'] = $object->getMacAddress();
             }
             if ($object->isInitialized('networks') && null !== $object->getNetworks()) {
-                $values_4 = [];
-                foreach ($object->getNetworks() as $key_1 => $value_4) {
-                    $values_4[$key_1] = $this->normalizer->normalize($value_4, 'json', $context);
+                $values_3 = [];
+                foreach ($object->getNetworks() as $key_1 => $value_3) {
+                    $values_3[$key_1] = $this->normalizer->normalize($value_3, 'json', $context);
                 }
-                $data['Networks'] = $values_4;
+                $data['Networks'] = $values_3;
             }
-            foreach ($object as $key_2 => $value_5) {
+            foreach ($object as $key_2 => $value_4) {
                 if (preg_match('/.*/', (string) $key_2)) {
-                    $data[$key_2] = $value_5;
+                    $data[$key_2] = $value_4;
                 }
             }
 

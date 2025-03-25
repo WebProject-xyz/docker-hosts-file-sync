@@ -17,6 +17,7 @@ class SynchronizeHostsFileServiceFactory
     public static function create(
         string $hostsFile,
         string $tld,
+        ?string $reverseProxyIp,
         ?SymfonyStyle $io = null,
     ): SynchronizeHostsFileService {
         return new SynchronizeHostsFileService(
@@ -25,6 +26,7 @@ class SynchronizeHostsFileServiceFactory
             ),
             hostsFile: $hostsFile,
             tld: $tld,
+            reverseProxyIp: $reverseProxyIp,
             consoleOutput: $io,
         );
     }

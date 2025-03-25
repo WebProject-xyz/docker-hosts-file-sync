@@ -46,24 +46,34 @@ final readonly class DockerContainerDto
 
     /**
      * Note: the default container name is excluded to prevent issues with docker dns.
-     *
-     * @param array<string> $extractFromEnvVars
      */
-    public function getHostnames(string $tld, array $extractFromEnvVars): array
+    public function getHostnames(string $tld): array
     {
-        $hosts = [$this->getName() . $tld];
-        if ($this->envVariables) {
-            foreach ($this->envVariables as $name => $value) {
-                if (!in_array($name, $extractFromEnvVars, true)) {
-                    continue;
-                }
+        $hosts = [
+            // $this->getName(),
+            $this->getName() . $tld,
+        ];
 
-                foreach (explode(',', $value) as $item) {
-                    $hosts[] = $item;
-                }
+        return array_unique($hosts);
+    }
+
+    /**
+     * @phpstan-param array<string> $extractFromEnvVars
+     * @phpstan-param array<string> $hosts
+     */
+    public function extractUrlsFromEnvVars(array $extractFromEnvVars): array
+    {
+        $hosts = [];
+        foreach ($this->envVariables as $name => $value) {
+            if (!in_array($name, $extractFromEnvVars, true)) {
+                continue;
+            }
+
+            foreach (explode(',', $value) as $item) {
+                $hosts[] = $item;
             }
         }
 
-        return array_unique($hosts);
+        return $hosts;
     }
 }

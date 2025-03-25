@@ -51,17 +51,23 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
             if (null === $data || false === is_array($data)) {
                 return $object;
             }
-            if (array_key_exists('Start', $data)) {
-                $object->setStart(DateTime::createFromFormat('Y-m-d\TH:i:sP', $data['Start']));
+            if (array_key_exists('Start', $data) && null !== $data['Start']) {
+                $object->setStart(DateTime::createFromFormat('Y-m-d\TH:i:sP', $data['Start']) ?: new DateTime($data['Start']));
                 unset($data['Start']);
+            } elseif (array_key_exists('Start', $data) && null === $data['Start']) {
+                $object->setStart(null);
             }
-            if (array_key_exists('End', $data)) {
+            if (array_key_exists('End', $data) && null !== $data['End']) {
                 $object->setEnd($data['End']);
                 unset($data['End']);
+            } elseif (array_key_exists('End', $data) && null === $data['End']) {
+                $object->setEnd(null);
             }
-            if (array_key_exists('ExitCode', $data)) {
+            if (array_key_exists('ExitCode', $data) && null !== $data['ExitCode']) {
                 $object->setExitCode($data['ExitCode']);
                 unset($data['ExitCode']);
+            } elseif (array_key_exists('ExitCode', $data) && null === $data['ExitCode']) {
+                $object->setExitCode(null);
             }
             if (array_key_exists('Output', $data)) {
                 $object->setOutput($data['Output']);
@@ -80,7 +86,7 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
         {
             $data = [];
             if ($object->isInitialized('start') && null !== $object->getStart()) {
-                $data['Start'] = $object->getStart()?->format('Y-m-d\TH:i:sP');
+                $data['Start'] = $object->getStart()->format('Y-m-d\TH:i:sP');
             }
             if ($object->isInitialized('end') && null !== $object->getEnd()) {
                 $data['End'] = $object->getEnd();
@@ -138,17 +144,23 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
             if (null === $data || false === is_array($data)) {
                 return $object;
             }
-            if (array_key_exists('Start', $data)) {
+            if (array_key_exists('Start', $data) && null !== $data['Start']) {
                 $object->setStart(DateTime::createFromFormat('Y-m-d\TH:i:sP', $data['Start']));
                 unset($data['Start']);
+            } elseif (array_key_exists('Start', $data) && null === $data['Start']) {
+                $object->setStart(null);
             }
-            if (array_key_exists('End', $data)) {
+            if (array_key_exists('End', $data) && null !== $data['End']) {
                 $object->setEnd($data['End']);
                 unset($data['End']);
+            } elseif (array_key_exists('End', $data) && null === $data['End']) {
+                $object->setEnd(null);
             }
-            if (array_key_exists('ExitCode', $data)) {
+            if (array_key_exists('ExitCode', $data) && null !== $data['ExitCode']) {
                 $object->setExitCode($data['ExitCode']);
                 unset($data['ExitCode']);
+            } elseif (array_key_exists('ExitCode', $data) && null === $data['ExitCode']) {
+                $object->setExitCode(null);
             }
             if (array_key_exists('Output', $data)) {
                 $object->setOutput($data['Output']);
@@ -170,7 +182,7 @@ if (!class_exists(Kernel::class) || (Kernel::MAJOR_VERSION >= 7 || Kernel::MAJOR
         {
             $data = [];
             if ($object->isInitialized('start') && null !== $object->getStart()) {
-                $data['Start'] = $object->getStart()?->format('Y-m-d\TH:i:sP');
+                $data['Start'] = $object->getStart()->format('Y-m-d\TH:i:sP');
             }
             if ($object->isInitialized('end') && null !== $object->getEnd()) {
                 $data['End'] = $object->getEnd();
