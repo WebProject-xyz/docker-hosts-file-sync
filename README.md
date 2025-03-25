@@ -19,6 +19,8 @@ php bin/docker-api synchronize-hosts -v --reverse-proxy-host-ip=172.16.238.100
 ## hosts file (/etc/hosts) sync
 ```shell
 docker run -d --name docker-hostfile-sync --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/app/hosts ghcr.io/webproject-xyz/php-docker-api-client:latest 
+# or with reverse-proxy-ip e.g. "172.16.238.100"
+docker run -d --name docker-hostfile-sync --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/app/hosts ghcr.io/webproject-xyz/php-docker-api-client:latest  --reverse-proxy-host-ip=172.16.238.100
 ```
 
 ## Example of hosts file
