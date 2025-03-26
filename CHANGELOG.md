@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.4.0...1.4.1) (2025-03-26)
+
+### Bug Fixes
+
+* **docker:** update image source label ([9e4bc14](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/9e4bc140c3f6619be2ccc523a273faaf36b1aedb))
+
 ## [1.4.0](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.3.0...1.4.0) (2025-03-26)
 
 ### Features
