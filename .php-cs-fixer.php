@@ -8,8 +8,6 @@ $finder = PhpCsFixer\Finder::create()
         [
             __DIR__ . '/src',
             __DIR__ . '/tests',
-            __DIR__ . '/generated',
-            __DIR__ . '/examples',
         ]
     )
     ->append(

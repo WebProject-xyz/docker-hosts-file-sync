@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebProject\DockerApiClient\Service;
+namespace WebProject\DockerHostsFileSync\Service;
 
 use const FILTER_VALIDATE_IP;
 use Exception;
@@ -10,7 +10,10 @@ use RuntimeException;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerApiClient\Event\ContainerEvent;
-use WebProject\DockerApiClient\Util\ContainerToHostsFileLinesUtil;
+use WebProject\DockerApiClient\Service\DockerService;
+use WebProject\DockerHostsFileSync\Dto\HostsFileEntryDto;
+use WebProject\DockerHostsFileSync\Util\ContainerToHostsFileLinesUtil;
+use function array_map;
 use function count;
 use function filter_var;
 use function in_array;
@@ -127,11 +130,14 @@ final class SynchronizeHostsFileService
         $convertContainerToLine = function (DockerContainerDto $container) use ($containerToHostsFileLineUtil): string {
             return implode(
                 "\n",
-                $containerToHostsFileLineUtil(
-                    container: $container,
-                    tld: $this->tld,
-                    extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES,
-                    reverseProxyIp: $this->reverseProxyIp,
+                array_map(
+                    static fn (HostsFileEntryDto $line) => (string) $line,
+                    $containerToHostsFileLineUtil(
+                        container: $container,
+                        tld: $this->tld,
+                        extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES,
+                        reverseProxyIp: $this->reverseProxyIp,
+                    )
                 )
             );
         };
@@ -140,9 +146,10 @@ final class SynchronizeHostsFileService
 
         $hosts = array_merge(
             [self::START_TAG],
-            $hostsFileLines,
+            array_map($convertContainerToLine, $this->activeContainers),
             [self::END_TAG]
         );
+
         array_splice($content, $start, $end - $start + 1, $hosts);
         file_put_contents($this->hostsFile, implode("\n", $content));
         if ($this->consoleOutput?->isVerbose()) {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WebProject\DockerApiClient\Command;
+namespace WebProject\DockerHostsFileSync\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use WebProject\DockerApiClient\Factory\SynchronizeHostsFileServiceFactory;
+use WebProject\DockerHostsFileSync\Factory\SynchronizeHostsFileServiceFactory;
 
 #[AsCommand(
     name: 'synchronize-hosts',

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebProject\DockerApiClient\Tests\Support;
+namespace WebProject\DockerHostsFileSync\Tests\Support;
 
 /**
  * Inherited Methods.

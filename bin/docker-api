@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
 use WebProject\DockerApiClient\Command\ListContainersCommand;
-use WebProject\DockerApiClient\Command\SynchronizeHostsCommand;
+use WebProject\DockerHostsFileSync\Command\SynchronizeHostsCommand;
 
 if (!is_dir(dirname(__DIR__) . '/vendor')) {
     throw new LogicException('Dependencies are missing. Try running "composer install".');
@@ -17,7 +17,7 @@ if (!is_file(dirname(__DIR__) . '/vendor/autoload_runtime.php')) {
 require_once dirname(__DIR__) . '/vendor/autoload_runtime.php';
 
 return static function (array $context) {
-    $application = new Application('Docker API', '@package_version@');
+    $application = new Application('Docker hosts file sync', '@package_version@');
     $application->add(new SynchronizeHostsCommand());
     $application->add(new ListContainersCommand());
     $application->setDefaultCommand('synchronize-hosts');

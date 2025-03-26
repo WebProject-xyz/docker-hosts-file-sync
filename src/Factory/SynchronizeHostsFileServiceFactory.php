@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WebProject\DockerApiClient\Factory;
+namespace WebProject\DockerHostsFileSync\Factory;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
+use WebProject\DockerApiClient\Factory\ClientFactory;
 use WebProject\DockerApiClient\Service\DockerService;
-use WebProject\DockerApiClient\Service\SynchronizeHostsFileService;
+use WebProject\DockerHostsFileSync\Service\SynchronizeHostsFileService;
 
 class SynchronizeHostsFileServiceFactory
 {

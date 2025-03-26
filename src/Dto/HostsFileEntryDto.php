@@ -2,15 +2,23 @@
 
 declare(strict_types=1);
 
-namespace WebProject\DockerApiClient\Dto;
+namespace WebProject\DockerHostsFileSync\Dto;
 
-class HostsFileEntryDto
+use Stringable;
+
+class HostsFileEntryDto implements Stringable
 {
     public function __construct(
-        public string $id,
-        public array $networks,
-        public array $ipAddresses,
-        public array $aliases,
+        public string $ip,
+        /**
+         * @var array<string>
+         */
+        public array $hostnames,
     ) {
+    }
+
+    public function __toString(): string
+    {
+        return $this->ip . ' ' . implode(' ', $this->hostnames);
     }
 }

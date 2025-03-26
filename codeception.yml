@@ -1,4 +1,4 @@
-namespace: WebProject\DockerApiClient\Tests
+namespace: WebProject\DockerHostsFileSync\Tests
 support_namespace: Support
 paths:
     tests: tests

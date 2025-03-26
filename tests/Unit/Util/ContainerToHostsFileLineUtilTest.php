@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace WebProject\DockerApiClient\Tests\Unit\Util;
+namespace WebProject\DockerHostsFileSync\Tests\Unit\Util;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
-use WebProject\DockerApiClient\Tests\Support\UnitTester;
-use WebProject\DockerApiClient\Util\ContainerToHostsFileLinesUtil;
+use WebProject\DockerHostsFileSync\Tests\Support\UnitTester;
+use WebProject\DockerHostsFileSync\Util\ContainerToHostsFileLinesUtil;
+use function array_map;
 
 #[CoversClass(DockerContainerDto::class)]
 #[CoversClass(ContainerToHostsFileLinesUtil::class)]
@@ -37,7 +38,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
         $util = new ContainerToHostsFileLinesUtil();
         // Act
 
-        $actual = $util($container, '.tld', []);
+        $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
         $this->assertSame($expected, $actual);
     }
@@ -63,7 +64,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
 
         $util = new ContainerToHostsFileLinesUtil();
         // Act
-        $actual = $util($container, '.tld', []);
+        $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
         $this->assertSame($expected, $actual);
     }
@@ -94,7 +95,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
 
         $util = new ContainerToHostsFileLinesUtil();
         // Act
-        $actual = $util($container, '.tld', []);
+        $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
         $this->assertSame($expected, $actual);
     }
@@ -125,7 +126,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
 
         $util = new ContainerToHostsFileLinesUtil();
         // Act
-        $actual = $util($container, '.tld', []);
+        $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
         $this->assertSame($expected, $actual);
     }
@@ -161,7 +162,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
 
         $util = new ContainerToHostsFileLinesUtil();
         // Act
-        $actual = $util($container, '.tld', []);
+        $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
         $this->assertSame($expected, $actual);
     }
@@ -199,7 +200,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
 
         $util = new ContainerToHostsFileLinesUtil();
         // Act
-        $actual = $util($container, '.tld', ['DOMAIN_NAME']);
+        $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
         $this->assertSame($expected, $actual);
     }
@@ -239,7 +240,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
 
         $util = new ContainerToHostsFileLinesUtil();
         // Act
-        $actual = $util($container, '.tld', ['DOMAIN_NAME'], '192.12.12.100');
+        $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', ['DOMAIN_NAME'], '192.12.12.100'));
         // Assert
         $this->assertSame($expected, $actual);
     }

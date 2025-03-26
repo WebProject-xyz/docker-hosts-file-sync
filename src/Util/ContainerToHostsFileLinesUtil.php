@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace WebProject\DockerApiClient\Util;
+namespace WebProject\DockerHostsFileSync\Util;
 
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
+use WebProject\DockerHostsFileSync\Dto\HostsFileEntryDto;
 use function array_merge;
 use function array_unique;
-use function array_walk;
 use function current;
-use function implode;
-use function sprintf;
+use function is_string;
 use function str_contains;
 use function substr;
 
@@ -19,25 +18,30 @@ final readonly class ContainerToHostsFileLinesUtil
     /**
      * @param array<string> $extractFromEnvVars
      *
-     * @return array<string>
+     * @return iterable<string, HostsFileEntryDto>
      */
-    public function __invoke(DockerContainerDto $container, string $tld, array $extractFromEnvVars, ?string $reverseProxyIp = null): array
-    {
-        $lines                 = [];
-        $reverseProxyHostnames = [];
+    public function __invoke(
+        DockerContainerDto $container,
+        string $tld,
+        array $extractFromEnvVars,
+        ?string $reverseProxyIp = null
+    ): array {
+        $ips                   = [];
+
         // Global
         if (!empty($container->ipAddresses)) {
             $ip = current($container->ipAddresses);
-
-            $lines[$ip] = implode(
-                ' ',
-                $container->getHostnames($tld)
-            );
+            if (is_string($ip)) {
+                $ips[$ip] = $container->getHostnames($tld);
+            }
         }
 
         // Networks
         foreach ($container->networks as $networkName => $conf) {
-            $ip = $conf['ip'];
+            $ip = $conf['ip'] ?? null;
+            if (!is_string($ip) || '' === $ip) {
+                continue;
+            }
 
             $aliases       = $conf['aliases'] ?? [];
             $containerName = $container->getName();
@@ -46,47 +50,30 @@ final readonly class ContainerToHostsFileLinesUtil
             } else {
                 $aliases[] = $containerName;
             }
-
-            $hosts = [];
+            // alias to hostname
             foreach (array_unique($aliases) as $alias) {
                 if (str_contains($alias, '.')) {
                     // alias looks like a url - should be added to proxy target
-                    $reverseProxyHostnames[] = $alias;
+                    if ($reverseProxyIp) {
+                        $ips[$reverseProxyIp][] = $alias;
+                    }
                     continue;
                 }
 
-                $hosts[] = $alias . '.' . $networkName;
+                $ips[$ip][] = $alias . '.' . $networkName;
             }
-
-            $lines[$ip] = sprintf('%s%s', isset($lines[$ip]) ? $lines[$ip] . ' ' : '', implode(' ', $hosts));
         }
 
         if ($reverseProxyIp) {
-            $lines = $this->handleReverseProxyLines($reverseProxyHostnames, $container, $extractFromEnvVars, $lines, $reverseProxyIp);
+            $ips[$reverseProxyIp] = array_merge(
+                $ips[$reverseProxyIp],
+                $container->extractUrlsFromEnvVars($extractFromEnvVars)
+            );
         }
 
-        array_walk($lines, static function (&$host, $ip) {
-            $host = $ip . ' ' . $host;
-        });
-
-        return $lines;
-    }
-
-    /**
-     * @param array<string> $extractFromEnvVars
-     * @param array<string> $lines
-     * @param array<string> $reverseProxyHostnames
-     *
-     * @return array<string>
-     */
-    private function handleReverseProxyLines(array $reverseProxyHostnames, DockerContainerDto $container, array $extractFromEnvVars, array $lines, string $reverseProxyIp): array
-    {
-        $reverseProxyTargets = array_unique(array_merge($reverseProxyHostnames, $container->extractUrlsFromEnvVars($extractFromEnvVars)));
-        if ([] !== $reverseProxyTargets) {
-            $lines[$reverseProxyIp] = implode(
-                ' ',
-                $reverseProxyTargets
-            );
+        $lines = [];
+        foreach ($ips as $ip => $hostnames) {
+            $lines[$ip] = new HostsFileEntryDto($ip, $hostnames);
         }
 
         return $lines;

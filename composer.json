@@ -1,11 +1,12 @@
 {
-  "name": "webproject-xyz/docker-api-client",
+  "name": "webproject-xyz/docker-hostsfile-sync",
   "description": "A PHP docker API client with a cli tool to sync your hosts file with running docker containers to add hostnames for every network like '172.16.238.100 jwilder-proxy.docker jwilder-proxy.proxyNet jwilder.proxyNet proxy.local.proxyNet' ",
   "license": "MIT",
   "type": "library",
   "homepage": "https://www.webproject.xyz",
   "require": {
     "php": "~8.3.0 || ~8.4.0",
+    "ext-filter": "*",
     "jane-php/open-api-runtime": "^7.8.1",
     "phpdocumentor/reflection-docblock": "^5.6.1",
     "phpstan/phpdoc-parser": "^2.1",
@@ -14,7 +15,8 @@
     "symfony/property-access": "^7.2.3",
     "symfony/property-info": "^7.2.3",
     "symfony/runtime": "^7.2.3",
-    "symfony/serializer": "^7.2.4"
+    "symfony/serializer": "^7.2.4",
+    "webproject-xyz/docker-api-client": "^1.1"
   },
   "require-dev": {
     "codeception/codeception": "^5.2.1",
@@ -27,13 +29,12 @@
   },
   "autoload": {
     "psr-4": {
-      "WebProject\\DockerApiClient\\": "src/",
-      "WebProject\\DockerApi\\Library\\Generated\\": "generated/"
+      "WebProject\\DockerHostsFileSync\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "WebProject\\DockerApiClient\\Tests\\": "tests/"
+      "WebProject\\DockerHostsFileSync\\Tests\\": "tests/"
     }
   },
   "bin": [
