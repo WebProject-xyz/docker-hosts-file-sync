@@ -1,4 +1,4 @@
-# php-docker-api-client
+# docker-hosts-file-sync
 > A PHP docker API client with a cli tool to sync your hosts file with running docker containers to add hostnames for every network 
 > (inspired by https://github.com/iamluc/docker-hostmanager)
 
@@ -18,9 +18,10 @@ php bin/docker-api synchronize-hosts -v --reverse-proxy-host-ip=172.16.238.100
 
 ## hosts file (/etc/hosts) sync
 ```shell
-docker run -d --name docker-hostfile-sync --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/app/hosts ghcr.io/webproject-xyz/php-docker-api-client:latest 
+docker pull ghcr.io/webproject-xyz/docker-hosts-file-sync:latest
+docker run -d --name docker-hostfile-sync --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/app/hosts ghcr.io/webproject-xyz/docker-hosts-file-sync:latest
 # or with reverse-proxy-ip e.g. "172.16.238.100"
-docker run -d --name docker-hostfile-sync --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/app/hosts ghcr.io/webproject-xyz/php-docker-api-client:latest  --reverse-proxy-host-ip=172.16.238.100
+docker run -d --name docker-hostfile-sync --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/app/hosts ghcr.io/webproject-xyz/docker-hosts-file-sync:latest --reverse-proxy-host-ip=172.16.238.100
 ```
 
 ## Example of hosts file
