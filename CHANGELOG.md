@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.4.1...1.4.2) (2025-03-26)
+
+### Bug Fixes
+
+* update composer lock ([bd27985](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/bd27985cd40e58a4b7e961b162a422e6a4858c61))
+
 ## [1.4.1](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.4.0...1.4.1) (2025-03-26)
 
 ### Bug Fixes
