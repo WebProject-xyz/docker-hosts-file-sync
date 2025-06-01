@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad59c737296fe3425ec27b105d4f770e",
+    "content-hash": "115956e21be3b3a9e446304e9519b069",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -2940,38 +2940,38 @@
         },
         {
             "name": "webproject-xyz/docker-api-client",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebProject-xyz/php-docker-api-client.git",
-                "reference": "881b474a21ca1ba1df588225323d05eaf8b93fce"
+                "reference": "0add7cf0a3da283acafdcc6977da9eb9cfca9659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/881b474a21ca1ba1df588225323d05eaf8b93fce",
-                "reference": "881b474a21ca1ba1df588225323d05eaf8b93fce",
+                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/0add7cf0a3da283acafdcc6977da9eb9cfca9659",
+                "reference": "0add7cf0a3da283acafdcc6977da9eb9cfca9659",
                 "shasum": ""
             },
             "require": {
-                "jane-php/open-api-runtime": "^7.8.1",
+                "jane-php/open-api-runtime": "^7.9.0",
                 "php": "~8.3.0 || ~8.4.0",
-                "phpdocumentor/reflection-docblock": "^5.6.1",
+                "phpdocumentor/reflection-docblock": "^5.6.2",
                 "phpstan/phpdoc-parser": "^2.1",
-                "symfony/console": "^7.2.1",
-                "symfony/http-client": "^7.2.4",
-                "symfony/property-access": "^7.2.3",
-                "symfony/property-info": "^7.2.3",
-                "symfony/runtime": "^7.2.3",
-                "symfony/serializer": "^7.2.4"
+                "symfony/console": "^7.3.0",
+                "symfony/http-client": "^7.3.0",
+                "symfony/property-access": "^7.3.0",
+                "symfony/property-info": "^7.3.0",
+                "symfony/runtime": "^7.3.0",
+                "symfony/serializer": "^7.3.0"
             },
             "require-dev": {
-                "codeception/codeception": "^5.2.1",
-                "codeception/module-asserts": "^3.0.0",
+                "codeception/codeception": "^5.3.2",
+                "codeception/module-asserts": "^3.2.0",
                 "codeception/module-phpbrowser": "^3.0.1",
-                "friendsofphp/php-cs-fixer": "3.73.1",
-                "jane-php/open-api-3": "^7.8.1",
+                "friendsofphp/php-cs-fixer": "3.75.0",
+                "jane-php/open-api-3": "^7.9.0",
                 "roave/security-advisories": "dev-latest",
-                "symfony/var-dumper": "7.2.3"
+                "symfony/var-dumper": "7.3.0"
             },
             "bin": [
                 "bin/docker-api"
@@ -2991,9 +2991,9 @@
             "homepage": "https://www.webproject.xyz",
             "support": {
                 "issues": "https://github.com/WebProject-xyz/php-docker-api-client/issues",
-                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.1.0"
+                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.2.0"
             },
-            "time": "2025-03-26T00:00:06+00:00"
+            "time": "2025-06-01T18:53:14+00:00"
         }
     ],
     "packages-dev": [
