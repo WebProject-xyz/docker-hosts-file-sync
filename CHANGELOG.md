@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.4.2...1.5.0) (2025-06-01)
+
+### Features
+
+* **deps:** update symfony packages to ^7.3.0 ([#63](https://github.com/WebProject-xyz/docker-hosts-file-sync/issues/63)) ([980ff2c](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/980ff2cfdddc4d2c7f9a7db9c1dd8b5d2e8ebf65))
+
 ## [1.4.2](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.4.1...1.4.2) (2025-03-26)
 
 ### Bug Fixes
