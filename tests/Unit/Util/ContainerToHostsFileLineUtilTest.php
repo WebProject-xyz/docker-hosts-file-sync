@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WebProject\DockerHostsFileSync\Tests\Unit\Util;
@@ -7,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerHostsFileSync\Tests\Support\UnitTester;
 use WebProject\DockerHostsFileSync\Util\ContainerToHostsFileLinesUtil;
-use function array_map;
 
 #[CoversClass(DockerContainerDto::class)]
 #[CoversClass(ContainerToHostsFileLinesUtil::class)]

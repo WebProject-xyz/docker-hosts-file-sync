@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WebProject\DockerHostsFileSync\Service;
 
-use const FILTER_VALIDATE_IP;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -13,9 +12,8 @@ use WebProject\DockerApiClient\Event\ContainerEvent;
 use WebProject\DockerApiClient\Service\DockerService;
 use WebProject\DockerHostsFileSync\Dto\HostsFileEntryDto;
 use WebProject\DockerHostsFileSync\Util\ContainerToHostsFileLinesUtil;
-use function array_map;
+
 use function count;
-use function filter_var;
 use function in_array;
 use function sprintf;
 

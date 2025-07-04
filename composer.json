@@ -34,6 +34,12 @@
     "roave/security-advisories": "dev-latest",
     "symfony/var-dumper": "7.3.1"
   },
+  "replace": {
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php81": "*",
+    "symfony/polyfill-php82": "*",
+    "symfony/polyfill-php83": "*"
+  },
   "autoload": {
     "psr-4": {
       "WebProject\\DockerHostsFileSync\\": "src/"
@@ -51,6 +57,9 @@
     "allow-plugins": {
       "php-http/discovery": true,
       "symfony/runtime": true
+    },
+    "platform": {
+      "php": "8.3"
     }
   },
   "scripts": {

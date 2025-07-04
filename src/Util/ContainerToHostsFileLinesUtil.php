@@ -6,12 +6,8 @@ namespace WebProject\DockerHostsFileSync\Util;
 
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerHostsFileSync\Dto\HostsFileEntryDto;
-use function array_merge;
-use function array_unique;
-use function current;
+
 use function is_string;
-use function str_contains;
-use function substr;
 
 final readonly class ContainerToHostsFileLinesUtil
 {
@@ -24,9 +20,9 @@ final readonly class ContainerToHostsFileLinesUtil
         DockerContainerDto $container,
         string $tld,
         array $extractFromEnvVars,
-        ?string $reverseProxyIp = null
+        ?string $reverseProxyIp = null,
     ): array {
-        $ips                   = [];
+        $ips = [];
 
         // Global
         if (!empty($container->ipAddresses)) {
