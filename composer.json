@@ -23,7 +23,7 @@
     "symfony/property-info": "^7.3.1",
     "symfony/runtime": "^7.3.1",
     "symfony/serializer": "^7.3.1",
-    "webproject-xyz/docker-api-client": "^1.2.0"
+    "webproject-xyz/docker-api-client": "^1.2.1"
   },
   "require-dev": {
     "codeception/codeception": "^5.3.2",
