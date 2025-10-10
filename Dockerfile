@@ -1,4 +1,4 @@
-FROM php:8.3-alpine@sha256:f54acdb949e218e84b6a632b6767d114e99752208dc1dd326842ff82b706f023
+FROM php:8.3-alpine@sha256:925a5a800db2abe3bcda64da19d2637c515ddfed277f25741d3ff06a814efafa
 LABEL authors="Ben"
 LABEL org.opencontainers.image.source = "https://github.com/WebProject-xyz/docker-hosts-file-sync"
 LABEL org.opencontainers.image.description="php-docker-api-client app syncs you hosts file on docker api system events"
