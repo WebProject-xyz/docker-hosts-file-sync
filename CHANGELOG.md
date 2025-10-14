@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.5](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.4...1.5.5) (2025-10-14)
+
+### Bug Fixes
+
+* **docker-build:** Update build-docker-image.yml to run on tag push ([97439f1](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/97439f1384b248377db291b7dcb079a7e3321d94))
+
 ## [1.5.4](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.3...1.5.4) (2025-10-14)
 
 ### Bug Fixes
