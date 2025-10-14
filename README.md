@@ -1,4 +1,5 @@
 # docker-hosts-file-sync
+
 > A PHP docker API client with a cli tool to sync your hosts file with running docker containers to add hostnames for every network 
 > (inspired by https://github.com/iamluc/docker-hostmanager)
 
