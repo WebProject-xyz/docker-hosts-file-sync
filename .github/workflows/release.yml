@@ -24,6 +24,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Semantic Release
+        id: semantic
         uses: cycjimmy/semantic-release-action@9cc899c47e6841430bbaedb43de1560a568dfd16 # v5.0.0
         with:
           tag_format: ${version}
@@ -38,3 +39,13 @@ jobs:
             conventional-changelog-conventionalcommits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Trigger Docker Build
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Build and Push Docker Image
+          token: ${{ secrets.GITHUB_TOKEN }}
+          inputs: >
+            {
+              "version": "${{ steps.semantic.outputs.new_release_git_tag }}"
+            }
