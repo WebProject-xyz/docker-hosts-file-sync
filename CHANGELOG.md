@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.7](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.6...1.5.7) (2025-10-20)
+
+### Bug Fixes
+
+* **docker build:** change trigger ([df5917e](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/df5917e5a776ef68f61e30b0776adc7eded66aac))
+* **docker build:** try gemini fixes to handle docker build on release ([f516217](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/f5162172c88f362e826fef07efd77149384400cf))
+
 ## [1.5.6](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.5...1.5.6) (2025-10-14)
 
 ### Bug Fixes
