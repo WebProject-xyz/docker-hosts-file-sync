@@ -1,9 +1,7 @@
 name: Build and Push Docker Image
-
 on:
-  push:
-    tags:
-     - '**'
+  release:
+    types: [published]
 
 jobs:
   build-and-push:
@@ -26,7 +24,7 @@ jobs:
 
       - name: Extract version from tag
         id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: echo "VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Convert repository name to lowercase
         id: repo
