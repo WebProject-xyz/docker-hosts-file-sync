@@ -1,0 +1,18 @@
+services:
+  docker-hostfile-sync:
+    build:
+      context: .
+    image: webproject-xyz/docker-hosts-file-sync:local
+    container_name: docker-hostfile-sync
+    restart: always
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: bind
+        source: /etc/hosts
+        target: /app/hosts
+#      - type: bind
+#        source: .
+#        target: /app
+    command: --reverse-proxy-host-ip=172.16.238.100
