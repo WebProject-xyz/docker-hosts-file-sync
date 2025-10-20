@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.8](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.7...1.5.8) (2025-10-20)
+
+### Bug Fixes
+
+* **release:** only release when tests are ok ([674b064](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/674b064b3e0f56915e81a292a9adeab0eb34d6a3))
+
 ## [1.5.7](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.6...1.5.7) (2025-10-20)
 
 ### Bug Fixes
