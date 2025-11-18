@@ -27,7 +27,7 @@ final readonly class ContainerToHostsFileLinesUtil
         // Global
         if (!empty($container->ipAddresses)) {
             $ip = current($container->ipAddresses);
-            if (is_string($ip)) {
+            if (is_string($ip) && $ip) {
                 $ips[$ip] = $container->getHostnames($tld);
             }
         }
@@ -62,7 +62,7 @@ final readonly class ContainerToHostsFileLinesUtil
 
         if ($reverseProxyIp) {
             $ips[$reverseProxyIp] = array_merge(
-                $ips[$reverseProxyIp],
+                $ips[$reverseProxyIp] ?? [],
                 $container->extractUrlsFromEnvVars($extractFromEnvVars)
             );
         }
