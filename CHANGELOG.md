@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.8...1.6.0) (2025-11-19)
+
+### Features
+
+* **client:** bump client and update event handling ([96a1709](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/96a1709bd041c51e07123ca7e1dacc3437628f99))
+
+### Bug Fixes
+
+* **docker:** fix spec with real world data.. ([d1d11d0](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/d1d11d09e77505783d9f9d430057126d22cb4ccc))
+
 ## [1.5.8](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.5.7...1.5.8) (2025-10-20)
 
 ### Bug Fixes
