@@ -69,6 +69,9 @@ final readonly class ContainerToHostsFileLinesUtil
 
         $lines = [];
         foreach ($ips as $ip => $hostnames) {
+            if ([] === $hostnames) {
+                continue;
+            }
             $lines[$ip] = new HostsFileEntryDto($ip, $hostnames);
         }
 

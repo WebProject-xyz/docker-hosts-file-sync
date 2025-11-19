@@ -76,26 +76,26 @@ final class SynchronizeHostsFileService
     private function listen(): true
     {
         $this->dockerService->listenForEvents(function (ContainerEvent $event) {
-            if (!$event->id) {
+            if (!$event->Actor->ID) {
                 return;
             }
 
             if (!in_array($event->Action, self::LISTEN_TO_ACTION, true)) {
                 if ($this->consoleOutput?->isVeryVerbose()) {
-                    $this->consoleOutput->writeln('[+] Action "' . $event->Action . '" from "' . $event->from . '" - skipped.');
+                    $this->consoleOutput->writeln('[+] Action "' . $event->Action . '" from "' . $event->Actor->ID . '" - skipped.');
                 }
 
                 return;
             }
 
             try {
-                $container = $this->dockerService->findContainer($event->id);
+                $container = $this->dockerService->findContainer($event->Actor->ID);
             } catch (Exception $e) {
                 return;
             }
 
             if (null === $container) {
-                unset($this->activeContainers[$event->id]);
+                unset($this->activeContainers[$event->Actor->ID]);
 
                 return;
             }
