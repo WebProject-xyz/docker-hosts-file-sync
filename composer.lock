@@ -122,7 +122,7 @@
         },
         {
             "name": "jane-php/json-schema-runtime",
-            "version": "v7.10.2",
+            "version": "v7.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/janephp/json-schema-runtime.git",
@@ -178,7 +178,7 @@
             ],
             "description": "Jane runtime Library",
             "support": {
-                "source": "https://github.com/janephp/json-schema-runtime/tree/v7.10.2"
+                "source": "https://github.com/janephp/json-schema-runtime/tree/v7.10.3"
             },
             "time": "2025-12-08T13:24:37+00:00"
         },
@@ -4527,7 +4527,7 @@
         },
         {
             "name": "jane-php/json-schema",
-            "version": "v7.10.2",
+            "version": "v7.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/janephp/json-schema.git",
@@ -4596,7 +4596,7 @@
             ],
             "description": "Generate a serializable / deserializable object model given a json schema",
             "support": {
-                "source": "https://github.com/janephp/json-schema/tree/v7.10.2"
+                "source": "https://github.com/janephp/json-schema/tree/v7.10.3"
             },
             "time": "2025-12-08T13:24:37+00:00"
         },
@@ -4676,16 +4676,16 @@
         },
         {
             "name": "jane-php/open-api-common",
-            "version": "v7.10.2",
+            "version": "v7.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/janephp/open-api-common.git",
-                "reference": "acc893b00a0abf4031f20f9dd1b85d2ebd620c0e"
+                "reference": "bf82185e06755400319e2ee503049d4a443d32a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/janephp/open-api-common/zipball/acc893b00a0abf4031f20f9dd1b85d2ebd620c0e",
-                "reference": "acc893b00a0abf4031f20f9dd1b85d2ebd620c0e",
+                "url": "https://api.github.com/repos/janephp/open-api-common/zipball/bf82185e06755400319e2ee503049d4a443d32a1",
+                "reference": "bf82185e06755400319e2ee503049d4a443d32a1",
                 "shasum": ""
             },
             "require": {
@@ -4739,9 +4739,9 @@
                 "utility"
             ],
             "support": {
-                "source": "https://github.com/janephp/open-api-common/tree/v7.10.2"
+                "source": "https://github.com/janephp/open-api-common/tree/v7.10.3"
             },
-            "time": "2025-12-15T13:45:16+00:00"
+            "time": "2025-12-24T18:49:09+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -5048,16 +5048,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "12.5.1",
+            "version": "12.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "c467c59a4f6e04b942be422844e7a6352fa01b57"
+                "reference": "4a9739b51cbcb355f6e95659612f92e282a7077b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c467c59a4f6e04b942be422844e7a6352fa01b57",
-                "reference": "c467c59a4f6e04b942be422844e7a6352fa01b57",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4a9739b51cbcb355f6e95659612f92e282a7077b",
+                "reference": "4a9739b51cbcb355f6e95659612f92e282a7077b",
                 "shasum": ""
             },
             "require": {
@@ -5072,7 +5072,7 @@
                 "sebastian/environment": "^8.0.3",
                 "sebastian/lines-of-code": "^4.0",
                 "sebastian/version": "^6.0",
-                "theseer/tokenizer": "^2.0"
+                "theseer/tokenizer": "^2.0.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^12.5.1"
@@ -5113,7 +5113,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.1"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.2"
             },
             "funding": [
                 {
@@ -5133,7 +5133,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-08T07:17:58+00:00"
+            "time": "2025-12-24T07:03:04+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
