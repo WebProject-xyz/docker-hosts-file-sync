@@ -6,7 +6,17 @@ namespace WebProject\DockerHostsFileSync\Tests\Unit\Service;
 
 use Codeception\Test\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionClass;
+use RuntimeException;
+use WebProject\DockerApi\Library\Generated\Client;
+use WebProject\DockerApi\Library\Generated\Model\ContainerConfig;
+use WebProject\DockerApi\Library\Generated\Model\ContainerInspectResponse;
+use WebProject\DockerApi\Library\Generated\Model\ContainerState;
+use WebProject\DockerApi\Library\Generated\Model\ContainerSummary;
+use WebProject\DockerApi\Library\Generated\Model\EndpointSettings;
+use WebProject\DockerApi\Library\Generated\Model\NetworkSettings;
+use WebProject\DockerApiClient\Client\DockerApiClientWrapper;
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerApiClient\Service\DockerService;
 use WebProject\DockerHostsFileSync\Service\SynchronizeHostsFileService;
@@ -32,12 +42,369 @@ final class SynchronizeHostsFileServiceTest extends Unit
         }
     }
 
+    // =========================================================================
+    // Constants Tests
+    // =========================================================================
+
     public function testConstantsAreCorrect(): void
     {
         $this->assertSame('## docker-hostsfile-sync', SynchronizeHostsFileService::START_TAG);
         $this->assertSame('## docker-hostsfile-sync-end', SynchronizeHostsFileService::END_TAG);
         $this->assertSame(['DOMAIN_NAME', 'VIRTUAL_HOST'], SynchronizeHostsFileService::ENV_VARS_WITH_HOSTNAMES);
     }
+
+    // =========================================================================
+    // Integration Tests with Mocked Client
+    // =========================================================================
+
+    public function testRunThrowsExceptionWhenHostsFileNotWritable(): void
+    {
+        // Arrange
+        $clientMock    = $this->createDockerClientMock([]);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: '/non/existent/path/hosts',
+            tld: '.docker',
+        );
+
+        // Assert
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('File "/non/existent/path/hosts" is not writable.');
+
+        // Act
+        $service->run();
+    }
+
+    public function testRunThrowsExceptionWhenReverseProxyIpIsInvalid(): void
+    {
+        // Arrange
+        $clientMock    = $this->createDockerClientMock([]);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: $this->tempHostsFile,
+            tld: '.docker',
+            reverseProxyIp: 'invalid-ip',
+        );
+
+        // Assert
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('ReverseProxyIp "invalid-ip" is not a valid ip.');
+
+        // Act
+        $service->run();
+    }
+
+    public function testIntegrationWithNoContainers(): void
+    {
+        // Arrange
+        $clientMock    = $this->createDockerClientMock([]);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: $this->tempHostsFile,
+            tld: '.docker',
+        );
+
+        // Use reflection to call init() and regenerateHostsFile() without listenForEvents()
+        $this->invokeInit($service);
+        $this->invokeRegenerateHostsFile($service);
+
+        // Assert
+        $content = file_get_contents($this->tempHostsFile);
+        $this->assertStringContainsString('127.0.0.1 localhost', $content);
+        $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
+        $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
+    }
+
+    public function testIntegrationWithSingleContainer(): void
+    {
+        // Arrange
+        $containerData = [
+            [
+                'id'       => 'abc123def456',
+                'name'     => '/webapp',
+                'image'    => 'nginx:alpine',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'bridge' => ['ip' => '172.17.0.2', 'aliases' => []],
+                ],
+                'ports' => ['80/tcp' => []],
+            ],
+        ];
+
+        $clientMock    = $this->createDockerClientMock($containerData);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: $this->tempHostsFile,
+            tld: '.docker',
+        );
+
+        // Act
+        $this->invokeInit($service);
+        $this->invokeRegenerateHostsFile($service);
+
+        // Assert
+        $content = file_get_contents($this->tempHostsFile);
+        $this->assertStringContainsString('172.17.0.2', $content);
+        $this->assertStringContainsString('webapp.docker', $content);
+        $this->assertStringContainsString('webapp.bridge', $content);
+    }
+
+    public function testIntegrationWithMultipleContainers(): void
+    {
+        // Arrange
+        $containerData = [
+            [
+                'id'       => 'container-1-id',
+                'name'     => '/frontend',
+                'image'    => 'nginx:alpine',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'web' => ['ip' => '172.20.0.2', 'aliases' => ['www']],
+                ],
+                'ports' => ['80/tcp' => []],
+            ],
+            [
+                'id'       => 'container-2-id',
+                'name'     => '/backend',
+                'image'    => 'php:8.3-fpm',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'web'      => ['ip' => '172.20.0.3', 'aliases' => ['api']],
+                    'internal' => ['ip' => '172.21.0.2', 'aliases' => []],
+                ],
+                'ports' => ['9000/tcp' => []],
+            ],
+            [
+                'id'       => 'container-3-id',
+                'name'     => '/database',
+                'image'    => 'postgres:16',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'internal' => ['ip' => '172.21.0.3', 'aliases' => ['db', 'postgres']],
+                ],
+                'ports' => ['5432/tcp' => []],
+            ],
+        ];
+
+        $clientMock    = $this->createDockerClientMock($containerData);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: $this->tempHostsFile,
+            tld: '.docker',
+        );
+
+        // Act
+        $this->invokeInit($service);
+        $this->invokeRegenerateHostsFile($service);
+
+        // Assert
+        $content = file_get_contents($this->tempHostsFile);
+
+        // Frontend container
+        $this->assertStringContainsString('172.20.0.2', $content);
+        $this->assertStringContainsString('frontend.web', $content);
+        $this->assertStringContainsString('www.web', $content);
+
+        // Backend container
+        $this->assertStringContainsString('172.20.0.3', $content);
+        $this->assertStringContainsString('backend.web', $content);
+        $this->assertStringContainsString('api.web', $content);
+        $this->assertStringContainsString('172.21.0.2', $content);
+        $this->assertStringContainsString('backend.internal', $content);
+
+        // Database container
+        $this->assertStringContainsString('172.21.0.3', $content);
+        $this->assertStringContainsString('database.internal', $content);
+        $this->assertStringContainsString('db.internal', $content);
+        $this->assertStringContainsString('postgres.internal', $content);
+    }
+
+    public function testIntegrationWithReverseProxy(): void
+    {
+        // Arrange
+        $containerData = [
+            [
+                'id'       => 'proxy-container',
+                'name'     => '/nginx-proxy',
+                'image'    => 'nginxproxy/nginx-proxy',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'proxy' => ['ip' => '172.16.238.100', 'aliases' => []],
+                ],
+                'ports' => ['80/tcp' => [], '443/tcp' => []],
+            ],
+            [
+                'id'       => 'app-container',
+                'name'     => '/myapp',
+                'image'    => 'myapp:latest',
+                'running'  => true,
+                'env'      => ['VIRTUAL_HOST=myapp.local,www.myapp.local', 'DOMAIN_NAME=api.myapp.local'],
+                'networks' => [
+                    'proxy'   => ['ip' => '172.16.238.2', 'aliases' => ['app.dev.local']],
+                    'default' => ['ip' => '172.17.0.5', 'aliases' => []],
+                ],
+                'ports' => ['8080/tcp' => []],
+            ],
+        ];
+
+        $clientMock    = $this->createDockerClientMock($containerData);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: $this->tempHostsFile,
+            tld: '.docker',
+            reverseProxyIp: '172.16.238.100',
+        );
+
+        // Act
+        $this->invokeInit($service);
+        $this->invokeRegenerateHostsFile($service);
+
+        // Assert
+        $content = file_get_contents($this->tempHostsFile);
+
+        // Proxy container direct access
+        $this->assertStringContainsString('172.16.238.100', $content);
+        $this->assertStringContainsString('nginx-proxy.proxy', $content);
+
+        // App container direct access
+        $this->assertStringContainsString('172.16.238.2', $content);
+        $this->assertStringContainsString('myapp.proxy', $content);
+        $this->assertStringContainsString('172.17.0.5', $content);
+        $this->assertStringContainsString('myapp.default', $content);
+
+        // Reverse proxy entries (URL-like aliases and env vars routed to proxy IP)
+        $this->assertStringContainsString('app.dev.local', $content);
+        $this->assertStringContainsString('myapp.local', $content);
+        $this->assertStringContainsString('www.myapp.local', $content);
+        $this->assertStringContainsString('api.myapp.local', $content);
+    }
+
+    public function testIntegrationSkipsNotRunningContainers(): void
+    {
+        // Arrange
+        $containerData = [
+            [
+                'id'       => 'running-container',
+                'name'     => '/running',
+                'image'    => 'nginx:alpine',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'bridge' => ['ip' => '172.17.0.2', 'aliases' => []],
+                ],
+                'ports' => ['80/tcp' => []],
+            ],
+            [
+                'id'       => 'stopped-container',
+                'name'     => '/stopped',
+                'image'    => 'nginx:alpine',
+                'running'  => false,
+                'env'      => [],
+                'networks' => [
+                    'bridge' => ['ip' => '172.17.0.3', 'aliases' => []],
+                ],
+                'ports' => ['80/tcp' => []],
+            ],
+        ];
+
+        $clientMock    = $this->createDockerClientMock($containerData);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: $this->tempHostsFile,
+            tld: '.docker',
+        );
+
+        // Act
+        $this->invokeInit($service);
+        $this->invokeRegenerateHostsFile($service);
+
+        // Assert
+        $content = file_get_contents($this->tempHostsFile);
+
+        // Running container should be present
+        $this->assertStringContainsString('172.17.0.2', $content);
+        $this->assertStringContainsString('running.bridge', $content);
+
+        // Stopped container should NOT be present (not exposed because not running)
+        $this->assertStringNotContainsString('172.17.0.3', $content);
+        $this->assertStringNotContainsString('stopped', $content);
+    }
+
+    public function testIntegrationSkipsContainersWithoutPorts(): void
+    {
+        // Arrange
+        $containerData = [
+            [
+                'id'       => 'with-ports',
+                'name'     => '/exposed',
+                'image'    => 'nginx:alpine',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'bridge' => ['ip' => '172.17.0.2', 'aliases' => []],
+                ],
+                'ports' => ['80/tcp' => []],
+            ],
+            [
+                'id'       => 'without-ports',
+                'name'     => '/hidden',
+                'image'    => 'redis:alpine',
+                'running'  => true,
+                'env'      => [],
+                'networks' => [
+                    'bridge' => ['ip' => '172.17.0.3', 'aliases' => []],
+                ],
+                'ports' => [],
+            ],
+        ];
+
+        $clientMock    = $this->createDockerClientMock($containerData);
+        $dockerService = $this->createDockerServiceWithMockedClient($clientMock);
+
+        $service = new SynchronizeHostsFileService(
+            dockerService: $dockerService,
+            hostsFile: $this->tempHostsFile,
+            tld: '.docker',
+        );
+
+        // Act
+        $this->invokeInit($service);
+        $this->invokeRegenerateHostsFile($service);
+
+        // Assert
+        $content = file_get_contents($this->tempHostsFile);
+
+        // Container with ports should be present
+        $this->assertStringContainsString('172.17.0.2', $content);
+        $this->assertStringContainsString('exposed.bridge', $content);
+
+        // Container without ports should NOT be present (not exposed)
+        $this->assertStringNotContainsString('172.17.0.3', $content);
+        $this->assertStringNotContainsString('hidden', $content);
+    }
+
+    // =========================================================================
+    // Regenerate Hosts File Tests (using reflection with DockerContainerDto)
+    // =========================================================================
 
     public function testRegenerateHostsFileWithNoContainers(): void
     {
@@ -275,6 +642,102 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->assertStringContainsString('app.backend', $content);
     }
 
+    // =========================================================================
+    // Helper Methods
+    // =========================================================================
+
+    /**
+     * Creates a mock of the Docker API Client.
+     *
+     * @param array<array{id: string, name: string, image: string, running: bool, env: array<string>, networks: array<string, array{ip: string, aliases: array<string>}>, ports: array<string, mixed>}> $containerData
+     *
+     * @return Client&MockObject
+     */
+    private function createDockerClientMock(array $containerData): Client
+    {
+        $mock = $this->createMock(Client::class);
+
+        // Create ContainerSummary objects for containerList()
+        $containerSummaries = [];
+        $containerInspects  = [];
+
+        foreach ($containerData as $data) {
+            $summary = new ContainerSummary();
+            $summary->setId($data['id']);
+            $summary->setNames([$data['name']]);
+            $summary->setImage($data['image']);
+            $containerSummaries[] = $summary;
+
+            // Create ContainerInspectResponse
+            $inspect                        = $this->createContainerInspectResponse($data);
+            $containerInspects[$data['id']] = $inspect;
+        }
+
+        $mock->method('containerList')
+            ->willReturn($containerSummaries);
+
+        $mock->method('containerInspect')
+            ->willReturnCallback(static fn (string $id) => $containerInspects[$id] ?? null);
+
+        return $mock;
+    }
+
+    /**
+     * Creates a ContainerInspectResponse from test data.
+     *
+     * @param array{id: string, name: string, image: string, running: bool, env: array<string>, networks: array<string, array{ip: string, aliases: array<string>}>, ports: array<string, mixed>} $data
+     */
+    private function createContainerInspectResponse(array $data): ContainerInspectResponse
+    {
+        $response = new ContainerInspectResponse();
+        $response->setId($data['id']);
+        $response->setName($data['name']);
+        $response->setImage($data['image']);
+
+        // State
+        $state = new ContainerState();
+        $state->setRunning($data['running']);
+        $response->setState($state);
+
+        // Config with environment variables
+        $config = new ContainerConfig();
+        $config->setEnv($data['env']);
+        $response->setConfig($config);
+
+        // Network settings
+        $networkSettings = new NetworkSettings();
+        $networks        = [];
+
+        foreach ($data['networks'] as $networkName => $networkData) {
+            $endpoint = new EndpointSettings();
+            $endpoint->setIPAddress($networkData['ip']);
+            $endpoint->setAliases($networkData['aliases']);
+            $networks[$networkName] = $endpoint;
+        }
+
+        $networkSettings->setNetworks($networks);
+        $networkSettings->setPorts($data['ports']);
+        $response->setNetworkSettings($networkSettings);
+
+        return $response;
+    }
+
+    /**
+     * Creates a DockerService with a mocked Client injected through DockerApiClientWrapper.
+     */
+    private function createDockerServiceWithMockedClient(Client $clientMock): DockerService
+    {
+        $wrapper = new DockerApiClientWrapper(
+            baseUri: 'http://localhost',
+            socketPath: '/var/run/docker.sock',
+            client: $clientMock,
+        );
+
+        return new DockerService(
+            dockerApiClient: $wrapper,
+        );
+    }
+
     /**
      * Creates a SynchronizeHostsFileService for testing with pre-set containers.
      *
@@ -313,6 +776,16 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $activeContainersProperty->setValue($service, $exposedContainers);
 
         return $service;
+    }
+
+    /**
+     * Invokes the private init method via reflection.
+     */
+    private function invokeInit(SynchronizeHostsFileService $service): void
+    {
+        $reflection = new ReflectionClass(SynchronizeHostsFileService::class);
+        $method     = $reflection->getMethod('init');
+        $method->invoke($service);
     }
 
     /**
