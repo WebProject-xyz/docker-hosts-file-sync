@@ -22,6 +22,8 @@ use WebProject\DockerApiClient\Service\DockerService;
 use WebProject\DockerHostsFileSync\Service\SynchronizeHostsFileService;
 use WebProject\DockerHostsFileSync\Tests\Support\UnitTester;
 
+use function codecept_data_dir;
+
 #[CoversClass(SynchronizeHostsFileService::class)]
 final class SynchronizeHostsFileServiceTest extends Unit
 {
@@ -31,7 +33,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
     protected function _before(): void
     {
-        $this->tempHostsFile = sys_get_temp_dir() . '/test-hosts-' . uniqid('', true);
+        $this->tempHostsFile = codecept_data_dir('test-hosts-' . uniqid('', true));
         file_put_contents($this->tempHostsFile, "127.0.0.1 localhost\n");
     }
 
