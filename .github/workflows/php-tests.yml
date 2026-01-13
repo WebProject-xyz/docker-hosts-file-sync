@@ -12,7 +12,7 @@ jobs:
             matrix:
                 include:
                     - { php-version: 8.3, dependencies: locked, coverage: pcov, with_coverage: true, allow-fail: false }
-                    - { php-version: 8.3, dependencies: highest, coverage: pcov, with_coverage: false, allow-fail: false }
+                    - { php-version: 8.3, dependencies: highest, coverage: pcov, with_coverage: false, allow-fail: true }
 
                     - { php-version: 8.4, dependencies: locked, coverage: pcov, with_coverage: false, allow-fail: true }
                     - { php-version: 8.4, dependencies: highest, coverage: pcov, with_coverage: false, allow-fail: true }

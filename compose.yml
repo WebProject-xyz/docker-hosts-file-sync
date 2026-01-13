@@ -2,7 +2,7 @@ services:
   docker-hostfile-sync:
     build:
       context: .
-    image: webproject-xyz/docker-hosts-file-sync:local
+    image: ghcr.io/webproject-xyz/docker-hosts-file-sync
     container_name: docker-hostfile-sync
     restart: always
     volumes:
