@@ -32,7 +32,7 @@
     "friendsofphp/php-cs-fixer": "3.93.0",
     "jane-php/open-api-3": "^7.10.3",
     "roave/security-advisories": "dev-latest",
-    "symfony/var-dumper": "7.4.3"
+    "symfony/var-dumper": "7.4.4"
   },
   "replace": {
     "symfony/polyfill-php80": "*",
