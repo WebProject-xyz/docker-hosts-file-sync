@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.description="php-docker-api-client app syncs you 
 LABEL org.opencontainers.image.licenses=MIT
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-COPY --from=composer:latest@sha256:1872bdb4a2080390498e75e7eb55f9d7e70c689ab5ab072a01da80720a68c6da /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:latest@sha256:1046ec6bbf684e54c8511b3f1d7df430a3e43122ce9d275fe174cc362d79ea47 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /app
 COPY --link . /app
