@@ -22,7 +22,9 @@ use WebProject\DockerApiClient\Service\DockerService;
 use WebProject\DockerHostsFileSync\Service\SynchronizeHostsFileService;
 use WebProject\DockerHostsFileSync\Tests\Support\UnitTester;
 
+use function assert;
 use function codecept_data_dir;
+use function is_string;
 
 #[CoversClass(SynchronizeHostsFileService::class)]
 final class SynchronizeHostsFileServiceTest extends Unit
@@ -33,7 +35,9 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
     protected function _before(): void
     {
-        $this->tempHostsFile = codecept_data_dir('test-hosts-' . uniqid('', true));
+        $dataDir = codecept_data_dir('test-hosts-' . uniqid('', true));
+        assert(is_string($dataDir));
+        $this->tempHostsFile = $dataDir;
         file_put_contents($this->tempHostsFile, "127.0.0.1 localhost\n");
     }
 
@@ -117,7 +121,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('127.0.0.1 localhost', $content);
         $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
         $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
@@ -154,7 +158,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('172.17.0.2', $content);
         $this->assertStringContainsString('webapp.docker', $content);
         $this->assertStringContainsString('webapp.bridge', $content);
@@ -214,7 +218,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
 
         // Frontend container
         $this->assertStringContainsString('172.20.0.2', $content);
@@ -279,7 +283,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
 
         // Proxy container direct access
         $this->assertStringContainsString('172.16.238.100', $content);
@@ -340,7 +344,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
 
         // Running container should be present
         $this->assertStringContainsString('172.17.0.2', $content);
@@ -393,7 +397,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
 
         // Container with ports should be present
         $this->assertStringContainsString('172.17.0.2', $content);
@@ -417,7 +421,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('127.0.0.1 localhost', $content);
         $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
         $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
@@ -448,7 +452,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('127.0.0.1 localhost', $content);
         $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
         $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
@@ -484,7 +488,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
         $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
         // Container direct IP
@@ -507,7 +511,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('127.0.0.1 localhost', $content);
         $this->assertStringContainsString('192.168.1.1 myserver', $content);
         $this->assertStringContainsString('# Custom comment', $content);
@@ -547,7 +551,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('127.0.0.1 localhost', $content);
         $this->assertStringContainsString('192.168.1.1 myserver', $content);
         // Old container should be gone
@@ -599,7 +603,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('172.17.0.2', $content);
         $this->assertStringContainsString('webapp.frontend', $content);
         $this->assertStringContainsString('172.17.0.3', $content);
@@ -636,7 +640,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $this->invokeRegenerateHostsFile($service);
 
         // Assert
-        $content = file_get_contents($this->tempHostsFile);
+        $content = $this->readHostsFile();
         $this->assertStringContainsString('172.17.0.2', $content);
         $this->assertStringContainsString('webapp.frontend', $content);
         $this->assertStringContainsString('172.18.0.2', $content);
@@ -703,7 +707,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Config with environment variables
         $config = new ContainerConfig();
-        $config->setEnv($data['env']);
+        $config->setEnv(array_values($data['env']));
         $response->setConfig($config);
 
         // Network settings
@@ -713,12 +717,14 @@ final class SynchronizeHostsFileServiceTest extends Unit
         foreach ($data['networks'] as $networkName => $networkData) {
             $endpoint = new EndpointSettings();
             $endpoint->setIPAddress($networkData['ip']);
-            $endpoint->setAliases($networkData['aliases']);
+            $endpoint->setAliases(array_values($networkData['aliases']));
             $networks[$networkName] = $endpoint;
         }
 
         $networkSettings->setNetworks($networks);
-        $networkSettings->setPorts($data['ports']);
+        /** @var array<string, \WebProject\DockerApi\Library\Generated\Model\PortBinding> $ports */
+        $ports = $data['ports'];
+        $networkSettings->setPorts($ports);
         $response->setNetworkSettings($networkSettings);
 
         return $response;
@@ -798,5 +804,13 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $reflection = new ReflectionClass(SynchronizeHostsFileService::class);
         $method     = $reflection->getMethod('regenerateHostsFile');
         $method->invoke($service);
+    }
+
+    private function readHostsFile(): string
+    {
+        $content = file_get_contents($this->tempHostsFile);
+        $this->assertIsString($content, 'Failed to read hosts file');
+
+        return $content;
     }
 }

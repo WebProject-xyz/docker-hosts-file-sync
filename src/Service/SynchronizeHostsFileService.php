@@ -10,7 +10,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerApiClient\Event\ContainerEvent;
 use WebProject\DockerApiClient\Service\DockerService;
-use WebProject\DockerHostsFileSync\Dto\HostsFileEntryDto;
 use WebProject\DockerHostsFileSync\Util\ContainerToHostsFileLinesUtil;
 
 use function count;
@@ -53,8 +52,9 @@ final class SynchronizeHostsFileService
         }
 
         $this->init();
+        $this->listen();
 
-        return true === $this->listen();
+        return true;
     }
 
     private function init(): void
@@ -73,7 +73,7 @@ final class SynchronizeHostsFileService
         $this->regenerateHostsFile();
     }
 
-    private function listen(): true
+    private function listen(): void
     {
         $this->dockerService->listenForEvents(function (ContainerEvent $event) {
             if (!$event->Actor->ID) {
@@ -111,25 +111,23 @@ final class SynchronizeHostsFileService
 
             $this->regenerateHostsFile();
         });
-
-        return true;
     }
 
     private function regenerateHostsFile(): void
     {
         $containerToHostsFileLineUtil = new ContainerToHostsFileLinesUtil();
 
-        $content = array_map('trim', file($this->hostsFile));
-        $res     = preg_grep('/^' . self::START_TAG . '/', $content);
-        $start   = count($res) ? key($res) : count($content) + 1;
-        $res     = preg_grep('/^' . self::END_TAG . '/', $content);
-        $end     = count($res) ? key($res) : count($content) + 1;
+        $content = array_map('trim', file($this->hostsFile) ?: []);
+        $res     = preg_grep('/^' . self::START_TAG . '/', $content) ?: [];
+        $start   = count($res) > 0 ? (int) key($res) : count($content) + 1;
+        $res     = preg_grep('/^' . self::END_TAG . '/', $content) ?: [];
+        $end     = count($res) > 0 ? (int) key($res) : count($content) + 1;
 
         $convertContainerToLine = function (DockerContainerDto $container) use ($containerToHostsFileLineUtil): string {
             return implode(
                 "\n",
                 array_map(
-                    static fn (HostsFileEntryDto $line) => (string) $line,
+                    static fn ($line) => (string) $line,
                     $containerToHostsFileLineUtil(
                         container: $container,
                         tld: $this->tld,

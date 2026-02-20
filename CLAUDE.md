@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A PHP CLI tool that synchronizes your system's hosts file with running Docker containers. It listens for Docker API events (container start/stop/restart/die) and automatically updates the hosts file with container IP addresses and hostnames.
 
+Requires PHP 8.3+ (tested on 8.3, 8.4, 8.5).
+
 ## Build and Development Commands
 
 ```bash
@@ -22,7 +24,7 @@ php bin/docker-api synchronize-hosts -v --reverse-proxy-host-ip=172.16.238.100
 sudo php bin/docker-api synchronize-hosts --hosts_file=/etc/hosts
 
 # Run tests
-vendor/bin/codecept run Unit
+composer test
 
 # Run a single test file
 vendor/bin/codecept run Unit tests/Unit/Util/ContainerToHostsFileLineUtilTest.php
@@ -30,11 +32,14 @@ vendor/bin/codecept run Unit tests/Unit/Util/ContainerToHostsFileLineUtilTest.ph
 # Run a specific test method
 vendor/bin/codecept run Unit tests/Unit/Util/ContainerToHostsFileLineUtilTest.php:testGetExpectedHostFileWithIp
 
+# Static analysis
+composer stan
+
 # Code style fix
-vendor/bin/php-cs-fixer fix
+composer cs:fix
 
 # Code style check (dry-run)
-vendor/bin/php-cs-fixer fix --dry-run
+composer cs:check
 ```
 
 ## Architecture
@@ -43,6 +48,7 @@ The codebase follows a simple layered architecture:
 
 ### Entry Point
 - `bin/docker-api` - Symfony Console application with `synchronize-hosts` as the default command
+  - Also registers `list-containers` command from the docker-api-client library
 
 ### Core Components
 
@@ -74,6 +80,19 @@ The project relies on `webproject-xyz/docker-api-client` for:
 - `DockerService` - High-level Docker API operations
 - `DockerContainerDto` - Container data representation
 - `ContainerEvent` - Docker event stream data
+
+## Environment Variables
+
+The CLI command supports these environment variables as alternatives to CLI options:
+- `HOSTS_FILE` - Path to the hosts file (default: `./tmp-hosts`)
+- `TLD` - TLD suffix appended to hostnames (default: `.docker`)
+
+## Docker Development
+
+A `compose.yml` is provided for running the tool in a container:
+```bash
+docker compose up
+```
 
 ## Testing
 

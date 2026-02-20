@@ -12,6 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use WebProject\DockerHostsFileSync\Factory\SynchronizeHostsFileServiceFactory;
 
+use function assert;
+use function is_string;
+
 #[AsCommand(
     name: 'synchronize-hosts',
     description: 'Synchronize hosts file from docker api events and add ip and names',
@@ -51,10 +54,16 @@ final class SynchronizeHostsCommand extends Command
 
         $io->writeln('[+] Start Listening for docker api events on docker socket');
 
+        $hostsFile      = $input->getOption('hosts_file');
+        $tld            = $input->getOption('tld');
+        $reverseProxyIp = $input->getOption('reverse-proxy-host-ip');
+        assert(is_string($hostsFile));
+        assert(is_string($tld));
+
         $success = true === SynchronizeHostsFileServiceFactory::create(
-            hostsFile: $input->getOption('hosts_file'),
-            tld: $input->getOption('tld'),
-            reverseProxyIp: $input->getOption('reverse-proxy-host-ip'),
+            hostsFile: $hostsFile,
+            tld: $tld,
+            reverseProxyIp: is_string($reverseProxyIp) ? $reverseProxyIp : null,
             io: $io,
         )->run();
 

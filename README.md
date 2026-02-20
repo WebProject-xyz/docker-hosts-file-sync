@@ -3,8 +3,10 @@
 [![CI](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/ci.yml)
 [![Release](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/release.yml/badge.svg)](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/release.yml)
 [![Docker Image](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/build-docker-image.yml/badge.svg)](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/build-docker-image.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.3-8892BF.svg)](https://php.net/)
+[![PHP Version](https://img.shields.io/packagist/php-v/webproject-xyz/docker-hostsfile-sync)](https://packagist.org/packages/webproject-xyz/docker-hostsfile-sync)
+[![Latest Stable Version](https://img.shields.io/packagist/v/webproject-xyz/docker-hostsfile-sync)](https://packagist.org/packages/webproject-xyz/docker-hostsfile-sync)
+[![Total Downloads](https://img.shields.io/packagist/dt/webproject-xyz/docker-hostsfile-sync)](https://packagist.org/packages/webproject-xyz/docker-hostsfile-sync)
+[![License](https://img.shields.io/packagist/l/webproject-xyz/docker-hostsfile-sync)](https://packagist.org/packages/webproject-xyz/docker-hostsfile-sync)
 
 Automatically sync your `/etc/hosts` file with running Docker containers. Each container gets hostnames for every network it's connected to.
 
