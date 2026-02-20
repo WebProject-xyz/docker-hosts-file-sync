@@ -1,4 +1,7 @@
-on: [ push, pull_request ]
+on:
+  push:
+    branches: ['**']
+  pull_request:
 name: "CI"
 
 jobs:
@@ -39,7 +42,7 @@ jobs:
           with:
             dependencies: "locked"
 
-      -   name: "Check coding style"
+      -   name: "Build codeception suites"
           run: "vendor/bin/codecept build"
 
       -   name: "Check coding style"
