@@ -82,3 +82,8 @@ composer.phar
 tests/Support/_generated/*
 !tests/Support/_generated/.gitkeep
 tmp-hosts
+build/
+.agent/
+.claude/
+.gemini/
+GEMINI.md

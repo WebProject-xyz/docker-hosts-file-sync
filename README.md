@@ -1,6 +1,7 @@
 # Docker Hosts File Sync
 
-[![Tests](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/php-tests.yml/badge.svg)](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/php-tests.yml)
+[![CI](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/ci.yml/badge.svg)](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/ci.yml)
+[![Release](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/release.yml/badge.svg)](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/release.yml)
 [![Docker Image](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/build-docker-image.yml/badge.svg)](https://github.com/WebProject-xyz/docker-hosts-file-sync/actions/workflows/build-docker-image.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D8.3-8892BF.svg)](https://php.net/)
