@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.7.0...1.7.1) (2026-02-20)
+
+### Bug Fixes
+
+* **ci:** run test workflow only on branches and pr not on tags ([e3314b4](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/e3314b4693635b6ec2d1a21a2b4d20e25c61e957))
+
 ## [1.7.0](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.6.0...1.7.0) (2026-01-13)
 
 ### Features
