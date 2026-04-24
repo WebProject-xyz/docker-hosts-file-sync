@@ -443,7 +443,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
                     'aliases' => [],
                 ],
             ],
-            ports: ['80/tcp' => []],
+            ports: ['80/tcp' => new \WebProject\DockerApi\Library\Generated\Model\PortBinding()],
         );
 
         $service = $this->createServiceForTesting($this->tempHostsFile, '.docker', [$container]);
@@ -479,7 +479,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
                     'aliases' => ['api.example.com'],
                 ],
             ],
-            ports: ['3000/tcp' => []],
+            ports: ['3000/tcp' => new \WebProject\DockerApi\Library\Generated\Model\PortBinding()],
         );
 
         $service = $this->createServiceForTesting($this->tempHostsFile, '.docker', [$container], '172.16.238.100');
@@ -542,7 +542,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
                     'aliases' => [],
                 ],
             ],
-            ports: ['80/tcp' => []],
+            ports: ['80/tcp' => new \WebProject\DockerApi\Library\Generated\Model\PortBinding()],
         );
 
         $service = $this->createServiceForTesting($this->tempHostsFile, '.docker', [$container]);
@@ -578,7 +578,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
                     'aliases' => [],
                 ],
             ],
-            ports: ['80/tcp' => []],
+            ports: ['80/tcp' => new \WebProject\DockerApi\Library\Generated\Model\PortBinding()],
         );
 
         $container2 = new DockerContainerDto(
@@ -594,7 +594,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
                     'aliases' => ['db'],
                 ],
             ],
-            ports: ['5432/tcp' => []],
+            ports: ['5432/tcp' => new \WebProject\DockerApi\Library\Generated\Model\PortBinding()],
         );
 
         $service = $this->createServiceForTesting($this->tempHostsFile, '.docker', [$container1, $container2]);
@@ -631,7 +631,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
                     'aliases' => ['app'],
                 ],
             ],
-            ports: ['80/tcp' => []],
+            ports: ['80/tcp' => new \WebProject\DockerApi\Library\Generated\Model\PortBinding()],
         );
 
         $service = $this->createServiceForTesting($this->tempHostsFile, '.docker', [$container]);
