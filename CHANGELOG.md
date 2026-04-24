@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.0](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.7.2...1.8.0) (2026-04-24)
+
+### Features
+
+* **php:** bump php version to 8.5, update symfony packages ([3f73e15](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/3f73e15131de2a58002d9938ec5d7ca3bde19ca8))
+
 ## [1.7.2](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.7.1...1.7.2) (2026-02-20)
 
 ### Bug Fixes
