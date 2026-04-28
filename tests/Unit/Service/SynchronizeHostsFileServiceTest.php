@@ -722,7 +722,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
         }
 
         $networkSettings->setNetworks($networks);
-        /** @var array<string, \WebProject\DockerApi\Library\Generated\Model\PortBinding> $ports */
+        /** @var array<string, list<\WebProject\DockerApi\Library\Generated\Model\PortBinding>|null>|null $ports */
         $ports = $data['ports'];
         $networkSettings->setPorts($ports);
         $response->setNetworkSettings($networkSettings);
