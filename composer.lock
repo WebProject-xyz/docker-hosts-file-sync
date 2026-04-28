@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a0dbc2fefb25d823eb6930a4588d426",
+    "content-hash": "ccca04103ed747bb75358783c18e103a",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -2908,16 +2908,16 @@
         },
         {
             "name": "webproject-xyz/docker-api-client",
-            "version": "1.4.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebProject-xyz/php-docker-api-client.git",
-                "reference": "2cc33e68ab68efbc5903da8229958dca0dede892"
+                "reference": "17cf2008faa3fea7553d3e582eec479d7155c756"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/2cc33e68ab68efbc5903da8229958dca0dede892",
-                "reference": "2cc33e68ab68efbc5903da8229958dca0dede892",
+                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/17cf2008faa3fea7553d3e582eec479d7155c756",
+                "reference": "17cf2008faa3fea7553d3e582eec479d7155c756",
                 "shasum": ""
             },
             "require": {
@@ -2972,9 +2972,9 @@
             "homepage": "https://www.webproject.xyz",
             "support": {
                 "issues": "https://github.com/WebProject-xyz/php-docker-api-client/issues",
-                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.4.1"
+                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.4.0"
             },
-            "time": "2026-04-28T19:55:15+00:00"
+            "time": "2026-04-28T19:06:14+00:00"
         }
     ],
     "packages-dev": [
