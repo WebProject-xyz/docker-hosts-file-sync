@@ -12,7 +12,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success'
       && !startsWith(github.event.workflow_run.head_commit.message, 'chore(release)')
     name: release
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - name: Generate Token
         id: generate_token
