@@ -75,7 +75,7 @@ final class SynchronizeHostsFileService
 
     private function listen(): void
     {
-        $this->dockerService->listenForEvents(function (ContainerEvent $event) {
+        $this->dockerService->listenForEvents(function (ContainerEvent $event): void {
             if (!$event->Actor->ID) {
                 return;
             }
