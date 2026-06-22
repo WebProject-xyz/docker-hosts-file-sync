@@ -2935,16 +2935,16 @@
         },
         {
             "name": "webproject-xyz/docker-api-client",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebProject-xyz/php-docker-api-client.git",
-                "reference": "414085bdfceff4d20d682b880b8bff625d7a710b"
+                "reference": "a17b2854f4d672c6bfad846f406052cb67467c7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/414085bdfceff4d20d682b880b8bff625d7a710b",
-                "reference": "414085bdfceff4d20d682b880b8bff625d7a710b",
+                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/a17b2854f4d672c6bfad846f406052cb67467c7b",
+                "reference": "a17b2854f4d672c6bfad846f406052cb67467c7b",
                 "shasum": ""
             },
             "require": {
@@ -2999,9 +2999,9 @@
             "homepage": "https://www.webproject.xyz",
             "support": {
                 "issues": "https://github.com/WebProject-xyz/php-docker-api-client/issues",
-                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.4.2"
+                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.4.3"
             },
-            "time": "2026-06-12T22:06:17+00:00"
+            "time": "2026-06-22T20:46:46+00:00"
         }
     ],
     "packages-dev": [

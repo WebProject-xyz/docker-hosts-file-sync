@@ -9,11 +9,11 @@ use Stringable;
 class HostsFileEntryDto implements Stringable
 {
     public function __construct(
-        public string $ip,
+        public private(set) string $ip,
         /**
          * @var array<string>
          */
-        public array $hostnames,
+        public private(set) array $hostnames,
     ) {
     }
 
