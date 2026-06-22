@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.3](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.8.2...1.8.3) (2026-06-22)
+
+### Bug Fixes
+
+* **deps:** composer up and bump ([8caa1ee](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/8caa1eea0221087e7d8cc3fecc41a2ea027cab55))
+
 ## [1.8.2](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.8.1...1.8.2) (2026-05-12)
 
 ### Bug Fixes
