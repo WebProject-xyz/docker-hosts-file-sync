@@ -2935,16 +2935,16 @@
         },
         {
             "name": "webproject-xyz/docker-api-client",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebProject-xyz/php-docker-api-client.git",
-                "reference": "414085bdfceff4d20d682b880b8bff625d7a710b"
+                "reference": "a17b2854f4d672c6bfad846f406052cb67467c7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/414085bdfceff4d20d682b880b8bff625d7a710b",
-                "reference": "414085bdfceff4d20d682b880b8bff625d7a710b",
+                "url": "https://api.github.com/repos/WebProject-xyz/php-docker-api-client/zipball/a17b2854f4d672c6bfad846f406052cb67467c7b",
+                "reference": "a17b2854f4d672c6bfad846f406052cb67467c7b",
                 "shasum": ""
             },
             "require": {
@@ -2999,9 +2999,9 @@
             "homepage": "https://www.webproject.xyz",
             "support": {
                 "issues": "https://github.com/WebProject-xyz/php-docker-api-client/issues",
-                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.4.2"
+                "source": "https://github.com/WebProject-xyz/php-docker-api-client/tree/1.4.3"
             },
-            "time": "2026-06-12T22:06:17+00:00"
+            "time": "2026-06-22T20:46:46+00:00"
         }
     ],
     "packages-dev": [
@@ -6320,12 +6320,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "55f7461997e52f12c93d307ccdcb0ee8e89f336a"
+                "reference": "23afac1b181cebf9a272d9cb3423c6c39f3710d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/55f7461997e52f12c93d307ccdcb0ee8e89f336a",
-                "reference": "55f7461997e52f12c93d307ccdcb0ee8e89f336a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/23afac1b181cebf9a272d9cb3423c6c39f3710d9",
+                "reference": "23afac1b181cebf9a272d9cb3423c6c39f3710d9",
                 "shasum": ""
             },
             "conflict": {
@@ -6936,7 +6936,7 @@
                 "paragonie/random_compat": "<2",
                 "paragonie/sodium_compat": "<1.24|>=2,<2.5",
                 "passbolt/passbolt_api": "<4.6.2",
-                "paymenter/paymenter": "<1.2.11",
+                "paymenter/paymenter": "<1.5",
                 "paypal/adaptivepayments-sdk-php": "<=3.9.2",
                 "paypal/invoice-sdk-php": "<=3.9",
                 "paypal/merchant-sdk-php": "<3.12",
@@ -7420,7 +7420,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-22T17:34:25+00:00"
+            "time": "2026-06-22T21:03:44+00:00"
         },
         {
             "name": "sebastian/cli-parser",
