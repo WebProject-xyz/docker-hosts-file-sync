@@ -10,10 +10,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use WebProject\DockerApiClient\Dto\DockerContainerDto;
 use WebProject\DockerApiClient\Event\ContainerEvent;
 use WebProject\DockerApiClient\Service\DockerService;
+use WebProject\DockerHostsFileSync\Enum\EventAction;
 use WebProject\DockerHostsFileSync\Util\ContainerToHostsFileLinesUtil;
 
+use function array_find_key;
 use function count;
-use function in_array;
 use function sprintf;
 
 final class SynchronizeHostsFileService
@@ -22,12 +23,6 @@ final class SynchronizeHostsFileService
     public const string END_TAG   = '## docker-hostsfile-sync-end';
 
     public const array ENV_VARS_WITH_HOSTNAMES = ['DOMAIN_NAME', 'VIRTUAL_HOST'];
-    private const array LISTEN_TO_ACTION       = [
-        'start',
-        'restart',
-        'stop',
-        'die',
-    ];
 
     /** @var array<string, DockerContainerDto> */
     private array $activeContainers = [];
@@ -80,7 +75,8 @@ final class SynchronizeHostsFileService
                 return;
             }
 
-            if (!in_array($event->Action, self::LISTEN_TO_ACTION, true)) {
+            $action = EventAction::tryFrom($event->Action);
+            if (null === $action) {
                 if ($this->consoleOutput?->isVeryVerbose()) {
                     $this->consoleOutput->writeln('[+] Action "' . $event->Action . '" from "' . $event->Actor->ID . '" - skipped.');
                 }
@@ -118,10 +114,10 @@ final class SynchronizeHostsFileService
         $containerToHostsFileLineUtil = new ContainerToHostsFileLinesUtil();
 
         $content = array_map('trim', file($this->hostsFile) ?: []);
-        $res     = preg_grep('/^' . self::START_TAG . '/', $content) ?: [];
-        $start   = count($res) > 0 ? (int) key($res) : count($content) + 1;
-        $res     = preg_grep('/^' . self::END_TAG . '/', $content) ?: [];
-        $end     = count($res) > 0 ? (int) key($res) : count($content) + 1;
+        $start   = array_find_key($content, static fn (string $line): bool => str_starts_with($line, self::START_TAG));
+        $start   = null !== $start ? (int) $start : count($content) + 1;
+        $end     = array_find_key($content, static fn (string $line): bool => str_starts_with($line, self::END_TAG));
+        $end     = null !== $end ? (int) $end : count($content) + 1;
 
         $convertContainerToLine = function (DockerContainerDto $container) use ($containerToHostsFileLineUtil): string {
             return implode(
