@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Docker Builder
-        uses: useblacksmith/setup-docker-builder@v1
+        uses: useblacksmith/setup-docker-builder@5fe3b77775f1dd55595beb998036fe1f2cf47118 # v1
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4
@@ -43,7 +43,7 @@ jobs:
         run: echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Build and push Docker image
-        uses: useblacksmith/build-push-action@v2.2.0
+        uses: useblacksmith/build-push-action@fb9e3e6a9299c78462bfadd0d93352c316adc9b8 # v2.2.0
         with:
           push: true
           tags: ghcr.io/${{ env.REPO_NAME }}:${{ env.VERSION }},ghcr.io/${{ env.REPO_NAME }}:latest
