@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.4](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.8.3...1.8.4) (2026-07-13)
+
+### Bug Fixes
+
+* **deps:** bump webproject-xyz/docker-api-client to 1.4.4 to fix event loop ([#389](https://github.com/WebProject-xyz/docker-hosts-file-sync/issues/389)) ([1a40ae2](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/1a40ae22f04a39d55fe1e58b24113a61fa2d8ec2))
+
 ## [1.8.3](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.8.2...1.8.3) (2026-06-22)
 
 ### Bug Fixes
