@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A PHP CLI tool that synchronizes your system's hosts file with running Docker containers. It listens for Docker API events (container start/stop/restart/die) and automatically updates the hosts file with container IP addresses and hostnames.
 
-Requires PHP 8.3+ (tested on 8.3, 8.4, 8.5).
+Requires PHP 8.5 (`~8.5.0`; CI runs on 8.5).
 
 ## Build and Development Commands
 
@@ -40,6 +40,9 @@ composer cs:fix
 
 # Code style check (dry-run)
 composer cs:check
+
+# Full QA sweep (build tests + cs:fix + test + stan)
+composer qa
 ```
 
 ## Architecture
@@ -48,7 +51,7 @@ The codebase follows a simple layered architecture:
 
 ### Entry Point
 - `bin/docker-api` - Symfony Console application with `synchronize-hosts` as the default command
-  - Also registers `list-containers` command from the docker-api-client library
+  - Also registers the `docker:list-containers` command from the docker-api-client library
 
 ### Core Components
 
@@ -58,9 +61,9 @@ The codebase follows a simple layered architecture:
 **Service Layer** (`src/Service/`)
 - `SynchronizeHostsFileService` - Main service that:
   - Initializes by scanning all running containers via Docker API
-  - Listens for Docker events (start/restart/stop/die) in an event loop
+  - Listens for Docker events in an event loop, filtering actions via the `EventAction` enum (start/restart/stop/die)
   - Regenerates the hosts file section between `## docker-hostsfile-sync` markers
-  - Tracks active containers in memory and updates hosts file on each event
+  - Tracks active containers in memory (only `isExposed()` ones: running + has ports) and updates hosts file on each event
 
 **Utility Layer** (`src/Util/`)
 - `ContainerToHostsFileLinesUtil` - Converts a `DockerContainerDto` into hosts file entries by:
@@ -72,14 +75,19 @@ The codebase follows a simple layered architecture:
 **DTO Layer** (`src/Dto/`)
 - `HostsFileEntryDto` - Simple value object representing a hosts file line (IP + hostnames)
 
+**Enum Layer** (`src/Enum/`)
+- `EventAction` - String-backed enum (start/restart/stop/die); the service uses `EventAction::tryFrom()` to validate and filter incoming Docker event actions
+
 **Factory Layer** (`src/Factory/`)
 - `SynchronizeHostsFileServiceFactory` - Creates the service with Docker API client from `webproject-xyz/docker-api-client`
 
 ### External Dependency
-The project relies on `webproject-xyz/docker-api-client` for:
-- `DockerService` - High-level Docker API operations
-- `DockerContainerDto` - Container data representation
+The project relies on `webproject-xyz/docker-api-client` (`^1.4.4`) for:
+- `DockerService` - High-level Docker API operations, incl. `listenForEvents()` (the live event stream)
+- `DockerContainerDto` - Container data representation (`isExposed()`, `getHostnames()`, `extractUrlsFromEnvVars()`)
 - `ContainerEvent` - Docker event stream data
+
+Note: the event stream requires `docker-api-client >= 1.4.4`; earlier versions never dispatched events, so only the initial container scan populated the hosts file.
 
 ## Environment Variables
 
