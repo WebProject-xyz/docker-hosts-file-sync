@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0dd6e8cf13c9a4847dfbcd4b79598547",
+    "content-hash": "40ab3a604bf90ef520114247352cccc4",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -9472,6 +9472,56 @@
                 "source": "https://github.com/WebProject-xyz/codeception-module-ai-reporter/tree/1.2.1"
             },
             "time": "2026-06-12T20:42:56+00:00"
+        },
+        {
+            "name": "webproject-xyz/php-cs-fixer-config",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WebProject-xyz/php-cs-fixer-config.git",
+                "reference": "c7f4f3a023271fec770a465707bda276f4ccd7b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WebProject-xyz/php-cs-fixer-config/zipball/c7f4f3a023271fec770a465707bda276f4ccd7b7",
+                "reference": "c7f4f3a023271fec770a465707bda276f4ccd7b7",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^3.95.15",
+                "php": "~8.3.0 || 8.4.0 || ~8.5.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^5.3.5",
+                "codeception/module-asserts": "^3.3.0",
+                "phpro/grumphp": "^2.22.0",
+                "phpstan/phpstan": "^2.2.5",
+                "roave/security-advisories": "dev-latest"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WebProject\\PhpCsFixerConfig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Fahl",
+                    "email": "ben+github@webproject.xyz",
+                    "role": "developer"
+                }
+            ],
+            "description": "The WebProject php-cs-fixer-config",
+            "homepage": "https://www.webproject.xyz",
+            "support": {
+                "issues": "https://github.com/WebProject-xyz/php-cs-fixer-config/issues",
+                "source": "https://github.com/WebProject-xyz/php-cs-fixer-config/"
+            },
+            "time": "2026-07-17T20:59:57+00:00"
         }
     ],
     "aliases": [],

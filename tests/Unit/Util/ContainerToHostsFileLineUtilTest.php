@@ -40,7 +40,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
 
         $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testGetExpectedHostFileWithIp(): void
@@ -66,7 +66,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
         // Act
         $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testGetExpectedHostFileWithIpAndNetworkAliases(): void
@@ -97,7 +97,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
         // Act
         $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testGetExpectedHostFileWithIpWithTldFromAlias(): void
@@ -128,7 +128,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
         // Act
         $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testGetExpectedHostFileWithIpAndNetworkAliasesAndMultipleNetworks(): void
@@ -164,7 +164,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
         // Act
         $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testGetExpectedHostFileWithIpAndNetworkAliasesAndMultipleNetworksAndEnvVars(): void
@@ -202,7 +202,7 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
         // Act
         $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', []));
         // Assert
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testGetExpectedHostFileWithIpAndNetworkAliasesAndMultipleNetworksAndEnvVarsReverseProxyIp(): void
@@ -242,6 +242,6 @@ final class ContainerToHostsFileLineUtilTest extends \Codeception\Test\Unit
         // Act
         $actual = array_map(static fn ($line) => (string) $line, $util($container, '.tld', ['DOMAIN_NAME'], '192.12.12.100'));
         // Assert
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 }

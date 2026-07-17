@@ -54,9 +54,9 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
     public function testConstantsAreCorrect(): void
     {
-        $this->assertSame('## docker-hostsfile-sync', SynchronizeHostsFileService::START_TAG);
-        $this->assertSame('## docker-hostsfile-sync-end', SynchronizeHostsFileService::END_TAG);
-        $this->assertSame(['DOMAIN_NAME', 'VIRTUAL_HOST'], SynchronizeHostsFileService::ENV_VARS_WITH_HOSTNAMES);
+        self::assertSame('## docker-hostsfile-sync', SynchronizeHostsFileService::START_TAG);
+        self::assertSame('## docker-hostsfile-sync-end', SynchronizeHostsFileService::END_TAG);
+        self::assertSame(['DOMAIN_NAME', 'VIRTUAL_HOST'], SynchronizeHostsFileService::ENV_VARS_WITH_HOSTNAMES);
     }
 
     // =========================================================================
@@ -122,9 +122,9 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('127.0.0.1 localhost', $content);
-        $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
-        $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
+        self::assertStringContainsString('127.0.0.1 localhost', $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
     }
 
     public function testIntegrationWithSingleContainer(): void
@@ -159,9 +159,9 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('172.17.0.2', $content);
-        $this->assertStringContainsString('webapp.docker', $content);
-        $this->assertStringContainsString('webapp.bridge', $content);
+        self::assertStringContainsString('172.17.0.2', $content);
+        self::assertStringContainsString('webapp.docker', $content);
+        self::assertStringContainsString('webapp.bridge', $content);
     }
 
     public function testIntegrationWithMultipleContainers(): void
@@ -221,22 +221,22 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $content = $this->readHostsFile();
 
         // Frontend container
-        $this->assertStringContainsString('172.20.0.2', $content);
-        $this->assertStringContainsString('frontend.web', $content);
-        $this->assertStringContainsString('www.web', $content);
+        self::assertStringContainsString('172.20.0.2', $content);
+        self::assertStringContainsString('frontend.web', $content);
+        self::assertStringContainsString('www.web', $content);
 
         // Backend container
-        $this->assertStringContainsString('172.20.0.3', $content);
-        $this->assertStringContainsString('backend.web', $content);
-        $this->assertStringContainsString('api.web', $content);
-        $this->assertStringContainsString('172.21.0.2', $content);
-        $this->assertStringContainsString('backend.internal', $content);
+        self::assertStringContainsString('172.20.0.3', $content);
+        self::assertStringContainsString('backend.web', $content);
+        self::assertStringContainsString('api.web', $content);
+        self::assertStringContainsString('172.21.0.2', $content);
+        self::assertStringContainsString('backend.internal', $content);
 
         // Database container
-        $this->assertStringContainsString('172.21.0.3', $content);
-        $this->assertStringContainsString('database.internal', $content);
-        $this->assertStringContainsString('db.internal', $content);
-        $this->assertStringContainsString('postgres.internal', $content);
+        self::assertStringContainsString('172.21.0.3', $content);
+        self::assertStringContainsString('database.internal', $content);
+        self::assertStringContainsString('db.internal', $content);
+        self::assertStringContainsString('postgres.internal', $content);
     }
 
     public function testIntegrationWithReverseProxy(): void
@@ -286,20 +286,20 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $content = $this->readHostsFile();
 
         // Proxy container direct access
-        $this->assertStringContainsString('172.16.238.100', $content);
-        $this->assertStringContainsString('nginx-proxy.proxy', $content);
+        self::assertStringContainsString('172.16.238.100', $content);
+        self::assertStringContainsString('nginx-proxy.proxy', $content);
 
         // App container direct access
-        $this->assertStringContainsString('172.16.238.2', $content);
-        $this->assertStringContainsString('myapp.proxy', $content);
-        $this->assertStringContainsString('172.17.0.5', $content);
-        $this->assertStringContainsString('myapp.default', $content);
+        self::assertStringContainsString('172.16.238.2', $content);
+        self::assertStringContainsString('myapp.proxy', $content);
+        self::assertStringContainsString('172.17.0.5', $content);
+        self::assertStringContainsString('myapp.default', $content);
 
         // Reverse proxy entries (URL-like aliases and env vars routed to proxy IP)
-        $this->assertStringContainsString('app.dev.local', $content);
-        $this->assertStringContainsString('myapp.local', $content);
-        $this->assertStringContainsString('www.myapp.local', $content);
-        $this->assertStringContainsString('api.myapp.local', $content);
+        self::assertStringContainsString('app.dev.local', $content);
+        self::assertStringContainsString('myapp.local', $content);
+        self::assertStringContainsString('www.myapp.local', $content);
+        self::assertStringContainsString('api.myapp.local', $content);
     }
 
     public function testIntegrationSkipsNotRunningContainers(): void
@@ -347,12 +347,12 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $content = $this->readHostsFile();
 
         // Running container should be present
-        $this->assertStringContainsString('172.17.0.2', $content);
-        $this->assertStringContainsString('running.bridge', $content);
+        self::assertStringContainsString('172.17.0.2', $content);
+        self::assertStringContainsString('running.bridge', $content);
 
         // Stopped container should NOT be present (not exposed because not running)
-        $this->assertStringNotContainsString('172.17.0.3', $content);
-        $this->assertStringNotContainsString('stopped', $content);
+        self::assertStringNotContainsString('172.17.0.3', $content);
+        self::assertStringNotContainsString('stopped', $content);
     }
 
     public function testIntegrationSkipsContainersWithoutPorts(): void
@@ -400,12 +400,12 @@ final class SynchronizeHostsFileServiceTest extends Unit
         $content = $this->readHostsFile();
 
         // Container with ports should be present
-        $this->assertStringContainsString('172.17.0.2', $content);
-        $this->assertStringContainsString('exposed.bridge', $content);
+        self::assertStringContainsString('172.17.0.2', $content);
+        self::assertStringContainsString('exposed.bridge', $content);
 
         // Container without ports should NOT be present (not exposed)
-        $this->assertStringNotContainsString('172.17.0.3', $content);
-        $this->assertStringNotContainsString('hidden', $content);
+        self::assertStringNotContainsString('172.17.0.3', $content);
+        self::assertStringNotContainsString('hidden', $content);
     }
 
     // =========================================================================
@@ -422,9 +422,9 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('127.0.0.1 localhost', $content);
-        $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
-        $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
+        self::assertStringContainsString('127.0.0.1 localhost', $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
     }
 
     public function testRegenerateHostsFileWithContainers(): void
@@ -453,12 +453,12 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('127.0.0.1 localhost', $content);
-        $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
-        $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
-        $this->assertStringContainsString('172.17.0.2', $content);
-        $this->assertStringContainsString('webapp.docker', $content);
-        $this->assertStringContainsString('webapp.bridge', $content);
+        self::assertStringContainsString('127.0.0.1 localhost', $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
+        self::assertStringContainsString('172.17.0.2', $content);
+        self::assertStringContainsString('webapp.docker', $content);
+        self::assertStringContainsString('webapp.bridge', $content);
     }
 
     public function testRegenerateHostsFileWithReverseProxyIp(): void
@@ -489,14 +489,14 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
-        $this->assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::START_TAG, $content);
+        self::assertStringContainsString(SynchronizeHostsFileService::END_TAG, $content);
         // Container direct IP
-        $this->assertStringContainsString('172.17.0.3', $content);
+        self::assertStringContainsString('172.17.0.3', $content);
         // Reverse proxy entries for URL-like aliases and DOMAIN_NAME
-        $this->assertStringContainsString('172.16.238.100', $content);
-        $this->assertStringContainsString('api.example.com', $content);
-        $this->assertStringContainsString('api.local', $content);
+        self::assertStringContainsString('172.16.238.100', $content);
+        self::assertStringContainsString('api.example.com', $content);
+        self::assertStringContainsString('api.local', $content);
     }
 
     public function testRegenerateHostsFilePreservesExistingContent(): void
@@ -512,9 +512,9 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('127.0.0.1 localhost', $content);
-        $this->assertStringContainsString('192.168.1.1 myserver', $content);
-        $this->assertStringContainsString('# Custom comment', $content);
+        self::assertStringContainsString('127.0.0.1 localhost', $content);
+        self::assertStringContainsString('192.168.1.1 myserver', $content);
+        self::assertStringContainsString('# Custom comment', $content);
     }
 
     public function testRegenerateHostsFileUpdatesExistingSection(): void
@@ -552,14 +552,14 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('127.0.0.1 localhost', $content);
-        $this->assertStringContainsString('192.168.1.1 myserver', $content);
+        self::assertStringContainsString('127.0.0.1 localhost', $content);
+        self::assertStringContainsString('192.168.1.1 myserver', $content);
         // Old container should be gone
-        $this->assertStringNotContainsString('172.17.0.99', $content);
-        $this->assertStringNotContainsString('old-container', $content);
+        self::assertStringNotContainsString('172.17.0.99', $content);
+        self::assertStringNotContainsString('old-container', $content);
         // New container should be present
-        $this->assertStringContainsString('172.17.0.5', $content);
-        $this->assertStringContainsString('new-webapp', $content);
+        self::assertStringContainsString('172.17.0.5', $content);
+        self::assertStringContainsString('new-webapp', $content);
     }
 
     public function testRegenerateHostsFileWithMultipleContainers(): void
@@ -604,11 +604,11 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('172.17.0.2', $content);
-        $this->assertStringContainsString('webapp.frontend', $content);
-        $this->assertStringContainsString('172.17.0.3', $content);
-        $this->assertStringContainsString('database.backend', $content);
-        $this->assertStringContainsString('db.backend', $content);
+        self::assertStringContainsString('172.17.0.2', $content);
+        self::assertStringContainsString('webapp.frontend', $content);
+        self::assertStringContainsString('172.17.0.3', $content);
+        self::assertStringContainsString('database.backend', $content);
+        self::assertStringContainsString('db.backend', $content);
     }
 
     public function testRegenerateHostsFileWithContainerOnMultipleNetworks(): void
@@ -641,11 +641,11 @@ final class SynchronizeHostsFileServiceTest extends Unit
 
         // Assert
         $content = $this->readHostsFile();
-        $this->assertStringContainsString('172.17.0.2', $content);
-        $this->assertStringContainsString('webapp.frontend', $content);
-        $this->assertStringContainsString('172.18.0.2', $content);
-        $this->assertStringContainsString('webapp.backend', $content);
-        $this->assertStringContainsString('app.backend', $content);
+        self::assertStringContainsString('172.17.0.2', $content);
+        self::assertStringContainsString('webapp.frontend', $content);
+        self::assertStringContainsString('172.18.0.2', $content);
+        self::assertStringContainsString('webapp.backend', $content);
+        self::assertStringContainsString('app.backend', $content);
     }
 
     // =========================================================================
@@ -809,7 +809,7 @@ final class SynchronizeHostsFileServiceTest extends Unit
     private function readHostsFile(): string
     {
         $content = file_get_contents($this->tempHostsFile);
-        $this->assertIsString($content, 'Failed to read hosts file');
+        self::assertIsString($content, 'Failed to read hosts file');
 
         return $content;
     }

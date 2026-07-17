@@ -35,7 +35,8 @@
     "phpstan/phpstan-webmozart-assert": "^2.0.0",
     "roave/security-advisories": "dev-latest",
     "symfony/var-dumper": "8.1.1",
-    "webproject-xyz/codeception-module-ai-reporter": "^1.2.1"
+    "webproject-xyz/codeception-module-ai-reporter": "^1.2.1",
+    "webproject-xyz/php-cs-fixer-config": "^1.0.0"
   },
   "replace": {
     "symfony/polyfill-php80": "*",
