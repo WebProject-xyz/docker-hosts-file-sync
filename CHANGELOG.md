@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.8.7...1.9.0) (2026-08-11)
+
+### Features
+
+* **rector:** add rector and bump dependencies ([1399bc4](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/1399bc4b423da8933eb04f444fa44296193078c1))
+
 ## [1.8.7](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.8.6...1.8.7) (2026-07-31)
 
 ### Bug Fixes
