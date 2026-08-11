@@ -24,7 +24,7 @@ final readonly class ContainerToHostsFileLinesUtil
         $ips = [];
 
         // Global
-        if (!empty($container->ipAddresses)) {
+        if ([] !== $container->ipAddresses) {
             $ip = array_first($container->ipAddresses);
             if ('' !== $ip) {
                 $ips[$ip] = $container->getHostnames($tld);

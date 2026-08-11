@@ -60,7 +60,7 @@ final class SynchronizeHostsCommand extends Command
         assert(is_string($hostsFile));
         assert(is_string($tld));
 
-        $success = true === SynchronizeHostsFileServiceFactory::create(
+        $success = SynchronizeHostsFileServiceFactory::create(
             hostsFile: $hostsFile,
             tld: $tld,
             reverseProxyIp: is_string($reverseProxyIp) ? $reverseProxyIp : null,

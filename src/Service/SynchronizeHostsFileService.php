@@ -86,11 +86,11 @@ final class SynchronizeHostsFileService
 
             try {
                 $container = $this->dockerService->findContainer($event->Actor->ID);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 return;
             }
 
-            if (null === $container) {
+            if (!$container instanceof DockerContainerDto) {
                 unset($this->activeContainers[$event->Actor->ID]);
 
                 return;
@@ -113,26 +113,24 @@ final class SynchronizeHostsFileService
     {
         $containerToHostsFileLineUtil = new ContainerToHostsFileLinesUtil();
 
-        $content = array_map('trim', file($this->hostsFile) ?: []);
+        $content = array_map(trim(...), file($this->hostsFile) ?: []);
         $start   = array_find_key($content, static fn (string $line): bool => str_starts_with($line, self::START_TAG));
         $start   = null !== $start ? (int) $start : count($content) + 1;
         $end     = array_find_key($content, static fn (string $line): bool => str_starts_with($line, self::END_TAG));
         $end     = null !== $end ? (int) $end : count($content) + 1;
 
-        $convertContainerToLine = function (DockerContainerDto $container) use ($containerToHostsFileLineUtil): string {
-            return implode(
-                "\n",
-                array_map(
-                    static fn ($line) => (string) $line,
-                    $containerToHostsFileLineUtil(
-                        container: $container,
-                        tld: $this->tld,
-                        extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES,
-                        reverseProxyIp: $this->reverseProxyIp,
-                    )
+        $convertContainerToLine = (fn (DockerContainerDto $container): string => implode(
+            "\n",
+            array_map(
+                static fn ($line) => (string) $line,
+                $containerToHostsFileLineUtil(
+                    container: $container,
+                    tld: $this->tld,
+                    extractFromEnvVars: self::ENV_VARS_WITH_HOSTNAMES,
+                    reverseProxyIp: $this->reverseProxyIp,
                 )
-            );
-        };
+            )
+        ));
 
         $hostsFileLines = array_map($convertContainerToLine, $this->activeContainers);
 
