@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.9.0...1.9.1) (2026-09-04)
+
+### Bug Fixes
+
+* **deps:** update ci workflow ([3137ccf](https://github.com/WebProject-xyz/docker-hosts-file-sync/commit/3137ccf68c9ebf18b3b2c6e910f828d1a5cba59a))
+
 ## [1.9.0](https://github.com/WebProject-xyz/docker-hosts-file-sync/compare/1.8.7...1.9.0) (2026-08-11)
 
 ### Features
