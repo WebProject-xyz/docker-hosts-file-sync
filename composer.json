@@ -35,7 +35,7 @@
     "phpstan/phpstan-webmozart-assert": "^2.0.0",
     "rector/rector": "^2.6.1",
     "roave/security-advisories": "dev-latest",
-    "symfony/var-dumper": "8.1.2",
+    "symfony/var-dumper": "8.1.6",
     "webproject-xyz/codeception-module-ai-reporter": "^2.0.0",
     "webproject-xyz/php-cs-fixer-config": "^1.0.0"
   },
