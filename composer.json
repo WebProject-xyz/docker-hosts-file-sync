@@ -14,30 +14,30 @@
   "require": {
     "php": "~8.5.0",
     "ext-filter": "*",
-    "jane-php/open-api-runtime": "^7.12.0",
-    "phpstan/phpdoc-parser": "^2.3.3",
-    "symfony/console": "^8.1.4",
-    "symfony/http-client": "^8.1.4",
+    "jane-php/open-api-runtime": "^7.14.0",
+    "phpstan/phpdoc-parser": "^2.3.5",
+    "symfony/console": "^8.1.6",
+    "symfony/http-client": "^8.1.6",
     "symfony/property-access": "^8.1.4",
-    "symfony/property-info": "^8.1.4",
+    "symfony/property-info": "^8.1.6",
     "symfony/runtime": "^8.1.0",
-    "symfony/serializer": "^8.1.4",
-    "webproject-xyz/docker-api-client": "^1.5.1"
+    "symfony/serializer": "^8.1.6",
+    "webproject-xyz/docker-api-client": "^1.5.2"
   },
   "require-dev": {
     "codeception/codeception": "^5.3.5",
     "codeception/module-asserts": "^3.3.0",
     "codeception/module-phpbrowser": "^4.1.0",
-    "friendsofphp/php-cs-fixer": "^3.95.18",
-    "jane-php/open-api-3": "^7.12.0",
+    "friendsofphp/php-cs-fixer": "^3.95.24",
+    "jane-php/open-api-3": "^7.14.0",
     "phpstan/extension-installer": "^1.4.3",
-    "phpstan/phpstan": "^2.2.8",
+    "phpstan/phpstan": "^2.2.13",
     "phpstan/phpstan-webmozart-assert": "^2.0.0",
-    "rector/rector": "^2.6.1",
+    "rector/rector": "^2.6.6",
     "roave/security-advisories": "dev-latest",
     "symfony/var-dumper": "8.1.2",
-    "webproject-xyz/codeception-module-ai-reporter": "^2.0.0",
-    "webproject-xyz/php-cs-fixer-config": "^1.0.0"
+    "webproject-xyz/codeception-module-ai-reporter": "^2.0.1",
+    "webproject-xyz/php-cs-fixer-config": "^1.1.2"
   },
   "replace": {
     "symfony/polyfill-php80": "*",

@@ -2,4 +2,4 @@
 
 declare(strict_types=1);
 
-return new \WebProject\PhpCsFixerConfig\PhpCsFixerConfigFactory()(__DIR__);
+return new WebProject\PhpCsFixerConfig\PhpCsFixerConfigFactory()(__DIR__);
