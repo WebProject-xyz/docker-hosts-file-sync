@@ -14,7 +14,7 @@
   "require": {
     "php": "~8.5.0",
     "ext-filter": "*",
-    "jane-php/open-api-runtime": "^7.14.0",
+    "jane-php/open-api-runtime": "^8.0.0",
     "phpstan/phpdoc-parser": "^2.3.5",
     "symfony/console": "^8.1.6",
     "symfony/http-client": "^8.1.6",
